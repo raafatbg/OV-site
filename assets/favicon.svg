@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <style>
+    .ov-text {
+      font-family: 'Fraunces', 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif;
+      font-size: 38px;
+      fill: #161616;
+    }
+    .ov-accent {
+      fill: #de434c;
+    }
+    @media (prefers-color-scheme: dark) {
+      .ov-text {
+        fill: #ffffff;
+      }
+    }
+  </style>
+
+  <!-- O character (styled italic serif) -->
+  <text x="18" y="47" class="ov-text" font-style="italic" font-weight="600" text-anchor="middle">O</text>
+  
+  <!-- V character -->
+  <text x="44" y="47" class="ov-text" font-style="normal" font-weight="500" text-anchor="middle">V</text>
+
+  <!-- Accent dot -->
+  <circle cx="51" cy="22" r="3" class="ov-accent"/>
+</svg>
