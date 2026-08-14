@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact &amp; Project Inquiries — OmniVora</title>
+  <meta name="description" content="Start a project with OmniVora — boutique software engineering studio in Beirut. Direct WhatsApp +961 70 374 702 or email hello@omnivora.dev." />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Contact &amp; Project Inquiries — OmniVora" />
+  <meta property="og:description" content="Start a project with OmniVora — boutique software engineering studio in Beirut." />
+  <meta property="og:image" content="assets/og-preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact &amp; Project Inquiries — OmniVora" />
+  <meta name="twitter:description" content="Start a project with OmniVora — boutique software engineering studio in Beirut." />
+  <meta name="twitter:image" content="assets/og-preview.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Archivo:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/home.css" />
+</head>
+<body data-page="contact">
+  <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor__ring" id="cursorRing"></div></div>
+
+  <header class="nav" id="nav">
+    <a href="index.html" class="nav__brand">OMNIVORA<sup>®</sup></a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="work.html" class="nav__link">Work</a>
+      <a href="services.html" class="nav__link">Services</a>
+      <a href="studio.html" class="nav__link">Studio</a>
+      <a href="contact.html" class="nav__link">Contact</a>
+    </nav>
+    <button class="nav__menu" id="menuBtn" aria-label="Menu">Menu</button>
+  </header>
+  <nav class="overlay" id="overlay" aria-label="Menu">
+    <a href="index.html">Home</a><a href="work.html">Work</a><a href="services.html">Services</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
+    <div class="overlay__meta">Beirut, Lebanon — +961 70 374 702</div>
+  </nav>
+
+  <main id="top">
+    <header class="phd">
+      <p class="phd__index" data-anim="rise">(05) — Contact</p>
+      <h1 class="phd__title" data-anim="rise">Start a <em>project.</em></h1>
+      <p class="phd__lede" data-anim="rise">Tell us about your project requirements. We review inquiries promptly and reply within 24–48 hours in English or Arabic.</p>
+    </header>
+
+    <!-- primary: the toggle -->
+    <section class="contact" id="contact">
+      <p class="contact__kicker" data-anim="rise">Direct Communication Channels</p>
+      <h2 class="contact__title" data-anim="rise">Say <em>hello.</em></h2>
+      <div class="switch" role="tablist" aria-label="Contact method">
+        <button data-tab="whatsapp" class="is-active" role="tab">WhatsApp</button>
+        <button data-tab="email" role="tab">Email</button>
+      </div>
+      <div class="contact__reveal">
+        <a class="contact__line is-shown" id="waLine" href="https://wa.me/96170374702?text=Hello%20OmniVora,%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener">wa.me / +961 70 374 702 <i>→</i></a>
+        <a class="contact__line" id="emLine" href="mailto:hello@omnivora.dev">hello@omnivora.dev <i>→</i></a>
+      </div>
+    </section>
+
+    <section class="cdetails">
+      <div>
+        <div class="cblock"><h4>WhatsApp</h4><a href="https://wa.me/96170374702?text=Hello%20OmniVora,%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener">+961 70 374 702</a></div>
+        <div class="cblock"><h4>Email</h4><a href="mailto:hello@omnivora.dev">hello@omnivora.dev</a></div>
+      </div>
+      <div>
+        <div class="cblock"><h4>Studio Location</h4><p>Beirut, Lebanon</p></div>
+        <div class="cblock"><h4>Availability</h4><p>Accepting new projects — 2026</p></div>
+        <div class="cblock"><h4>Languages</h4><p>English &amp; العربية</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="brand">OMNIVORA</span><span>Software that survives Beirut</span><span>© 2026 · Beirut, Lebanon</span>
+  </footer>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
