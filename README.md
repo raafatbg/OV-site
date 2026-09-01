@@ -1,1 +1,1 @@
-OmniVora website. Static site, deployed via Firebase Hosting
+OmniVora website. Static site, deployed via Firebase Hosting.
