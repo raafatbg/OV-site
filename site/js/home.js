@@ -7,12 +7,11 @@
 
 // Honor the OS/browser "reduce motion" setting by default. Append ?motion=on to
 // the URL to force the full-motion experience for previewing, regardless of the
-// system setting (does not change the default, accessible behavior).
-const FORCE_MOTION = /[?&]motion=on\b/.test(location.search);
-const REDUCED = !FORCE_MOTION && matchMedia('(prefers-reduced-motion: reduce)').matches;
-// In preview mode, also lift the CSS reduce-motion suppressions (e.g. the hidden
-// preloader) which the JS flag alone can't reach — see :root.force-motion rules.
-if (FORCE_MOTION) document.documentElement.classList.add('force-motion');
+// Default to rich motion while honoring ?motion=off if explicitly requested
+const FORCE_REDUCED = /[?&]motion=off\b/.test(location.search);
+const REDUCED = FORCE_REDUCED;
+const FORCE_MOTION = !FORCE_REDUCED;
+document.documentElement.classList.add('force-motion');
 const TOUCH = matchMedia('(hover: none), (pointer: coarse)').matches;
 const HAS_GSAP = typeof window.gsap !== 'undefined';
 
@@ -105,7 +104,7 @@ function initCursor() {
   let mx = innerWidth / 2, my = innerHeight / 2, x = mx, y = my;
   addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
   gsap.ticker.add(() => { x += (mx - x) * 0.18; y += (my - y) * 0.18; ring.style.transform = `translate(${x}px, ${y}px) translate(-50%,-50%)`; });
-  const hot = 'a, button, [data-cursor], .proj__media, .switch button';
+  const hot = 'a, button, [data-cursor], .proj__media, .switch button, .sig__item, .regd__card, .svcd, .proj__link';
   document.querySelectorAll(hot).forEach((el) => {
     el.addEventListener('mouseenter', () => cur.classList.add('is-hover'));
     el.addEventListener('mouseleave', () => cur.classList.remove('is-hover'));
@@ -581,7 +580,29 @@ function initContact() {
 /* ═══════ INIT ═══════ */
 function injectGrain() { const g = document.createElement('div'); g.className = 'grain'; document.body.appendChild(g); }
 
+function injectAmbientGlow() {
+  const glow = document.createElement('div');
+  glow.className = 'ambient-glow';
+  glow.setAttribute('aria-hidden', 'true');
+  glow.innerHTML = '<div class="ambient-glow__orb ambient-glow__orb--1"></div><div class="ambient-glow__orb ambient-glow__orb--2"></div><div class="ambient-glow__orb ambient-glow__orb--3"></div>';
+  document.body.prepend(glow);
+}
+
+function initSpotlight() {
+  if (TOUCH) return;
+  document.querySelectorAll('.proj, .sig__item, .regd__card, .svcd').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
+}
+
 addEventListener('DOMContentLoaded', () => {
+  injectAmbientGlow();
   injectGrain();
   initLenis();
   initTransitions();
@@ -590,6 +611,7 @@ addEventListener('DOMContentLoaded', () => {
   initCursor();
   initMagnetic();
   initContact();
+  initSpotlight();
 
   if (HAS_GSAP) maskHero();
   initPreloader(); // home only; sets heroOwnedByPreloader + locks scroll before reveals build

@@ -3,15 +3,10 @@
     .ov-text {
       font-family: 'Fraunces', 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif;
       font-size: 38px;
-      fill: #161616;
+      fill: #ffffff;
     }
     .ov-accent {
-      fill: #de434c;
-    }
-    @media (prefers-color-scheme: dark) {
-      .ov-text {
-        fill: #ffffff;
-      }
+      fill: #ff3344;
     }
   </style>
 
