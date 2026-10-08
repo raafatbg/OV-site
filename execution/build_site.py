@@ -278,7 +278,6 @@ home_main = f'''    <!-- ══════════ HERO (also the loader: t
           <span class="omvi__inner" aria-hidden="true"><span class="omvi__word">OMVI<span class="omvi__dot"></span></span></span>
         </h1>
       </div>
-      <div class="hero__frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
       <div class="hero__scroll" aria-hidden="true"></div>
       <div class="loader" aria-hidden="true">
         <div class="loader__id">

@@ -3233,7 +3233,6 @@ html.lenis body {
   --hero-text: var(--cream);
   --hero-muted: var(--cream-muted);
   --hero-rule: rgba(255, 254, 249, 0.16);
-  --hero-mark: rgba(255, 254, 249, 0.28);
   --hero-glow: rgba(222, 67, 76, 0.13);
   --hero-glow-3d: 1;
   --omvi-base: linear-gradient(180deg, #fffef9 0%, #ece8de 46%, #b4afa3 100%);
@@ -3334,26 +3333,7 @@ html.lenis body {
   vertical-align: baseline;
 }
 
-/* blueprint corner marks + scroll line */
-.hero__frame {
-  position: absolute;
-  z-index: 3;
-  inset: 6.2rem calc(var(--gutter) * 0.5) 1.2rem;
-  pointer-events: none;
-}
-
-.hero__frame i {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border: 0 solid var(--hero-mark);
-}
-
-.hero__frame i:nth-child(1) { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
-.hero__frame i:nth-child(2) { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
-.hero__frame i:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
-.hero__frame i:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
-
+/* scroll line */
 .hero__scroll {
   position: absolute;
   z-index: 3;
@@ -3412,7 +3392,6 @@ html.lenis body {
 
 /* while loading, only the printing wordmark and the readout are on stage */
 .hero--brand .hero__stage,
-.hero__frame,
 .hero__scroll,
 .omvi-wrap {
   transition: opacity 1s var(--e4);
@@ -3420,7 +3399,6 @@ html.lenis body {
 
 .is-loading .nav,
 .is-loading .hero--brand .hero__stage,
-.is-loading .hero__frame,
 .is-loading .hero__scroll,
 .is-loading .omvi-wrap {
   opacity: 0;
