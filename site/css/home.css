@@ -620,7 +620,7 @@ html.lenis body {
 /* ══════════════════ SIGNAL STRIP (cream) ══════════════════ */
 .signal {
   display: grid;
-  grid-template-columns: 45fr 25fr 30fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   border-top: 1px solid var(--hair);
   border-bottom: 1px solid var(--hair);
 }
@@ -645,7 +645,7 @@ html.lenis body {
   font-style: italic;
   font-weight: 300;
   font-optical-sizing: auto;
-  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-size: clamp(2.4rem, 4.6vw, 4.6rem);
   letter-spacing: -0.02em;
   line-height: 0.95;
   color: var(--charcoal);
