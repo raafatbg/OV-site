@@ -57,7 +57,7 @@
   const heroLayout = (w, h, dpr) => {
     const W = w / dpr, H = h / dpr;
     const tall = W < 760 || H > W * 1.05;
-    const top = (W < 760 ? 74 : 92) * dpr; // clear of the floating nav
+    const top = (W < 760 ? 68 : 76) * dpr; // clear of the nav bar
     const bottom = h * (tall ? 0.95 : 0.955);
     const cap = tall ? (w * 0.88) / omviUnits : Math.min((w * 0.66) / omviUnits, h * 0.27);
     const word = cap * 1.12; // glyph height plus its extrusion
