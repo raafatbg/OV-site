@@ -926,6 +926,7 @@
         const e = step * 1.1;
         const edge = !ink(x + e, y) || !ink(x - e, y) || !ink(x, y + e) || !ink(x, y - e) ? 1 : 0;
         pts.push(X, Y, 0, 0, edge);
+        if (!edge && Math.random() < 0.16) pts.push(X, Y, -DEPTH, 2, 0);
       }
     }
     // the brand dot: a crimson disc, its rim extruded like the letters
@@ -1089,98 +1090,57 @@
     const B = this.buckets, BN = this.bucketN;
     BN.fill(0);
     const DEPTH = this.depth;
-    const fade = 1 - ex * 0.55;
-    // a soft sheen of light drifts across the letters (about every 11 s)
-    const sheenX = ((t * 0.09) % 1) * (U + 2) - U / 2 - 1;
     for (let i = 0; i < n; i++) {
       const i3 = i * 3;
       proj(P[i3], P[i3 + 1], P[i3 + 2], q);
       this.sx[i] = q[0]; this.sy[i] = q[1]; this.sd[i] = q[2];
       if (this.edge[i]) { proj(P[i3], P[i3 + 1], P[i3 + 2] - DEPTH, q); this.bx[i] = q[0]; this.by[i] = q[1]; }
       const kd = this.pk[i];
-      let a;
-      if (!this.on[i]) a = 0.16;
-      else if (kd === 3) a = 1;
-      else {
-        // contour points carry the letterform; interiors sit a step back, lit from above
-        a = this.edge[i] ? 1 : 0.58 + 0.1 * Math.sin(this.seed[i] * 61);
-        a *= 0.8 + 0.2 * clamp(this.oy[i] + 0.5, 0, 1);
-        const dsh = Math.abs(this.ox[i] - sheenX);
-        if (dsh < 0.5) a += (1 - dsh / 0.5) * 0.32;
-      }
-      a = Math.min(1, a) * clamp(0.62 + this.sd[i] * 1.1, 0.25, 1) * fade;
+      // light from above: the top of each letter reads a touch brighter
+      const lit = kd === 0 ? 0.78 + 0.22 * clamp(this.oy[i] + 0.5, 0, 1) : 1;
+      let a = this.on[i] ? (kd === 2 ? 0.22 : 1) * lit : 0.16;
+      a *= clamp(0.62 + this.sd[i] * 1.1, 0.25, 1) * (1 - ex * 0.55);
       const hot = kd === 3 || this.heat[i] > 0.3;
       const b = (hot ? 6 : 0) + Math.min(5, Math.floor(a * 6));
       B[b][BN[b]++] = i;
     }
-    const unit = clamp(cap / 150, 0.75, 1.7) * dpr;
 
-    // 0) the stage: a hairline floor and a faint glossy reflection of the lower letters
-    const fl0 = proj(-U * 0.64, -0.5, 0.06, [0, 0, 0]), fl1 = proj(U * 0.64, -0.5, 0.06, [0, 0, 0]);
-    const fg = ctx.createLinearGradient(fl0[0], 0, fl1[0], 0);
-    fg.addColorStop(0, 'rgba(0,0,0,0)'); fg.addColorStop(0.5, this.color); fg.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.strokeStyle = fg; ctx.lineWidth = 1 * dpr; ctx.globalAlpha = 0.22 * fade * settle;
-    ctx.beginPath(); ctx.moveTo(fl0[0], fl0[1]); ctx.lineTo(fl1[0], fl1[1]); ctx.stroke();
-    const reflK = 0.15 * (1 - ex) * settle;
-    if (reflK > 0.01) {
-      const rp = [new Path2D(), new Path2D(), new Path2D()], rd = new Path2D();
-      const rs = unit * 1.3;
-      for (let i = 0; i < n; i++) {
-        if (!this.on[i]) continue;
-        const h = this.oy[i] + 0.5;
-        if (h > 0.42) continue;
-        const i3 = i * 3;
-        proj(P[i3], -1 - P[i3 + 1], P[i3 + 2], q);
-        if (this.pk[i] === 3) rd.rect(q[0] - rs / 2, q[1] - rs / 2, rs, rs);
-        else rp[h < 0.14 ? 0 : h < 0.28 ? 1 : 2].rect(q[0] - rs / 2, q[1] - rs / 2, rs, rs);
-      }
-      ctx.fillStyle = this.color;
-      [1, 0.5, 0.2].forEach((k, l) => { ctx.globalAlpha = reflK * k; ctx.fill(rp[l]); });
-      ctx.fillStyle = this.accent; ctx.globalAlpha = reflK * 0.8; ctx.fill(rd);
-    }
-
-    // 1) extrusion walls: every edge point trails back into depth, fading in three steps
+    // 1) extrusion walls: a fine line from every edge point back into depth
     ctx.lineWidth = 0.9 * dpr;
     for (let pass = 0; pass < 2; pass++) {
       ctx.strokeStyle = pass ? this.accent : this.color;
-      for (let seg = 0; seg < 3; seg++) {
-        const f0 = seg / 3, f1 = (seg + 1) / 3;
-        ctx.globalAlpha = (pass ? 0.6 : 0.38) * [1, 0.5, 0.2][seg] * fade;
-        ctx.beginPath();
-        let any = false;
-        for (let i = 0; i < n; i++) {
-          if (!this.edge[i] || !this.on[i]) continue;
-          const hot = this.pk[i] === 3 || this.heat[i] > 0.3;
-          if (hot !== (pass === 1)) continue;
-          const dx = this.bx[i] - this.sx[i], dy = this.by[i] - this.sy[i];
-          ctx.moveTo(this.sx[i] + dx * f0, this.sy[i] + dy * f0);
-          ctx.lineTo(this.sx[i] + dx * f1, this.sy[i] + dy * f1);
-          any = true;
-        }
-        if (any) ctx.stroke();
-      }
-    }
-    // 2) the back contour of each glyph, faint, completing the solid
-    ctx.fillStyle = this.color; ctx.globalAlpha = 0.16 * fade;
-    ctx.beginPath();
-    const bs = unit * 0.85;
-    for (let i = 0; i < n; i++) if (this.edge[i] && this.on[i]) ctx.rect(this.bx[i] - bs / 2, this.by[i] - bs / 2, bs, bs);
-    ctx.fill();
-
-    // 3) the front face: contour points slightly larger so the letterforms read crisp
-    for (let b = 0; b < 12; b++) {
-      const cnt = BN[b];
-      if (!cnt) continue;
-      ctx.fillStyle = b >= 6 ? this.accent : this.color;
-      ctx.globalAlpha = ((b % 6) + 0.5) / 6;
-      const list = B[b];
+      ctx.globalAlpha = (pass ? 0.55 : 0.3) * (1 - ex * 0.6);
       ctx.beginPath();
-      for (let j = 0; j < cnt; j++) {
-        const i = list[j], kd = this.pk[i];
-        const sz = unit * (kd === 3 ? 1.6 : this.edge[i] ? 1.65 : 1.35) * (this.on[i] ? 1 : 0.8);
-        ctx.rect(this.sx[i] - sz / 2, this.sy[i] - sz / 2, sz, sz);
+      let any = false;
+      for (let i = 0; i < n; i++) {
+        if (!this.edge[i] || !this.on[i]) continue;
+        const hot = this.pk[i] === 3 || this.heat[i] > 0.3;
+        if (hot !== (pass === 1)) continue;
+        ctx.moveTo(this.sx[i], this.sy[i]);
+        ctx.lineTo(this.bx[i], this.by[i]);
+        any = true;
       }
-      ctx.fill();
+      if (any) ctx.stroke();
+    }
+
+    // 2) points: back face first (dim), then the front face on top
+    const unit = clamp(cap / 150, 0.75, 1.7) * dpr;
+    for (let layer = 0; layer < 2; layer++) {
+      for (let b = 0; b < 12; b++) {
+        const cnt = BN[b];
+        if (!cnt) continue;
+        ctx.fillStyle = b >= 6 ? this.accent : this.color;
+        ctx.globalAlpha = ((b % 6) + 0.5) / 6;
+        const list = B[b];
+        ctx.beginPath();
+        for (let j = 0; j < cnt; j++) {
+          const i = list[j], kd = this.pk[i];
+          if ((kd === 2) !== (layer === 0)) continue;
+          const sz = unit * (kd === 3 ? 1.6 : kd === 2 ? 0.95 : 1.5) * (this.on[i] ? 1 : 0.8);
+          ctx.rect(this.sx[i] - sz / 2, this.sy[i] - sz / 2, sz, sz);
+        }
+        ctx.fill();
+      }
     }
 
     // beams: the horizontal print line while loading, the vertical LiDAR sweep after
@@ -1315,9 +1275,10 @@
       if (samples.length < 45) return;
       const med = samples.sort((a, b) => a - b)[22];
       samples = [];
-      if (med > 9 && (QUALITY.big > 0.6 || QUALITY.dpr > 0.75)) {
-        QUALITY.big = Math.max(0.6, QUALITY.big - 0.2);
-        QUALITY.dpr = Math.max(0.75, QUALITY.dpr - 0.25);
+      // Only a genuinely slow device steps down, and the big hero scenes never drop below
+      // native resolution — a soft, blurry hero looks worse than a slightly lower frame rate.
+      if (med > 20 && QUALITY.dpr > 1) {
+        QUALITY.dpr = 1;
         stages.forEach((s) => s.resize());
         settledAt = t + 1000;
       }
