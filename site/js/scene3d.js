@@ -19,7 +19,7 @@
      eco     — home hero: a POS terminal on a turntable with app, dashboard,
                payments and cloud orbiting it; HTML [data-anchor] siblings of
                the canvas are pinned to the 3D objects as floating labels
-   Optional attributes: data-color, data-accent, data-scale, data-wait.
+   Optional attributes: data-color, data-accent, data-scale, data-wait, data-fit.
    A parent can set data-hover="1" on the canvas to spin it faster.
    Pauses off-screen; renders one still frame under reduced motion.
    ══════════════════════════════════════════════════ */
@@ -48,6 +48,27 @@
   // Render quality shared by every scene (lowered at runtime on slow devices).
   // big = full-width canvases (hero, sync): normal pixel density is plenty for soft line art
   const QUALITY = { dpr: 1.5, big: 1, points: innerWidth < 760 ? 0.85 : 1 };
+
+  // Home-hero composition shared by the eco model and the OMVI wordmark, whose canvases both
+  // cover the whole hero (data-fit="hero"). On landscape screens the wordmark sits at the foot
+  // and the model fills the space between the nav and it; on phones and portrait screens the
+  // two are centred together as one block. All sizes are in canvas pixels.
+  let omviUnits = 4.35; // OMVI width in cap heights, replaced by the measured value once sampled
+  const heroLayout = (w, h, dpr) => {
+    const W = w / dpr, H = h / dpr;
+    const tall = W < 760 || H > W * 1.05;
+    const top = (W < 760 ? 74 : 92) * dpr; // clear of the floating nav
+    const bottom = h * (tall ? 0.95 : 0.955);
+    const cap = tall ? (w * 0.88) / omviUnits : Math.min((w * 0.66) / omviUnits, h * 0.27);
+    const word = cap * 1.12; // glyph height plus its extrusion
+    const gap = h * (tall ? 0.055 : 0.035);
+    // the model reaches 1.15 R above its centre, 1.55 R below, and 2.2 R sideways
+    // (1.58 R on tall screens, where the satellites orbit closer in)
+    const R = Math.min((bottom - top - word - gap) / 2.7, (w * (tall ? 0.5 : 0.46)) / (tall ? 1.58 : 2.2));
+    const block = R * 2.7 + gap + word;
+    const y0 = tall ? top + Math.max(0, (bottom - top - block) / 2) : bottom - block;
+    return { tall, cap, R, modelCy: y0 + R * 1.15, omviCy: y0 + R * 2.7 + gap + word / 2 };
+  };
 
   const pointer = { x: 0, y: 0, cx: -1e4, cy: -1e4, active: false };
   const track = (x, y) => {
@@ -235,6 +256,7 @@
     const gk = parseFloat(read(canvas.dataset.glow, '1'));
     this.glowK = isFinite(gk) ? gk : 1; // 0 turns the soft accent glow off (light backgrounds)
     this.scale = parseFloat(canvas.dataset.scale || '1');
+    this.fit = canvas.dataset.fit === 'hero';
     this.reduced = reduced;
     this.visible = true;
     this.mx = 0; this.my = 0;
@@ -759,7 +781,8 @@
   /* ═══════ eco: the home-hero product ecosystem ═══════ */
   Stage.prototype.satPos = function (sat) {
     const ang = sat.a + this.t * 0.13;
-    return [Math.cos(ang) * sat.r, sat.y + Math.sin(this.t * 0.9 + sat.a) * 0.06, Math.sin(ang) * sat.r];
+    const r = sat.r * (this.layout && this.layout.tall ? 0.7 : 1);
+    return [Math.cos(ang) * r, sat.y + Math.sin(this.t * 0.9 + sat.a) * 0.06, Math.sin(ang) * r];
   };
 
   // Quadratic curve from a to b, lifted at the middle.
@@ -946,6 +969,7 @@
     for (let i = 0; i < n; i++) { const x = pts[i * F]; if (x < minX) minX = x; if (x > maxX) maxX = x; }
     const shift = (minX + maxX) / 2;
     this.unitsW = maxX - minX;
+    omviUnits = this.unitsW;
     this.depth = DEPTH;
     this.n = n;
     this.ox = new Float32Array(n); this.oy = new Float32Array(n); this.oz = new Float32Array(n);
@@ -996,13 +1020,11 @@
 
     // layout: big and centred while it prints, then settles to the foot of the hero
     const U = this.unitsW;
-    const mobile = w / dpr < 760;
-    const capLoad = Math.min((w * (mobile ? 0.86 : 0.64)) / U, h * 0.3);
-    const capFinal = mobile ? (w * 0.84) / U : Math.min((w * 0.6) / U, h * 0.25);
-    const cap = lerp(capLoad, capFinal, settle);
+    const L = heroLayout(w, h, dpr);
+    const capLoad = Math.min((w * (L.tall ? 0.86 : 0.64)) / U, h * 0.3);
+    const cap = lerp(capLoad, L.cap, settle);
     const cx = w / 2;
-    const cyFinal = mobile ? h * 0.72 : h - h * 0.075 - capFinal * 0.5;
-    const cy = lerp(h * 0.5, cyFinal, settle);
+    const cy = lerp(h * 0.5, L.omviCy, settle);
 
     // camera: slow sway + pointer tilt, so the extruded walls catch the eye
     const yaw = Math.sin(t * 0.35) * 0.07 + this.mx * 0.16;
@@ -1213,6 +1235,11 @@
     this.cx = this.w / 2 + this.mx * this.w * 0.015;
     this.cy = this.h / 2 + this.my * this.h * 0.015;
     this.R = Math.min(this.w, this.h) * 0.3 * this.scale * (0.55 + 0.45 * intro) * (1 + scroll * 0.18);
+    if (this.fit && this.kind !== 'omvi') {
+      this.layout = heroLayout(this.w, this.h, this.dpr); // recomputed: the wordmark's measured width can land late
+      this.cy = this.layout.modelCy + this.my * this.h * 0.015;
+      this.R = this.layout.R * (0.55 + 0.45 * intro);
+    }
     this.rcx = Math.cos(pitch); this.rsx = Math.sin(pitch); this.rcy = Math.cos(yaw); this.rsy = Math.sin(yaw);
     this.yaw = yaw; this.pitch = pitch;
 

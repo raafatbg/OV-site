@@ -269,7 +269,7 @@ def sync_section(kicker, title_html, steps):
 home_main = f'''    <!-- ══════════ HERO (also the loader: the point-cloud OMVI prints while the page loads) ══════════ -->
     <section class="hero hero--brand" id="hero">
       <div class="hero__stage" aria-hidden="true">
-        <canvas class="hero__3d" data-3d="eco" data-color="--hero-ink" data-glow="--hero-glow-3d" data-scale="0.9" data-wait></canvas>
+        <canvas class="hero__3d" data-3d="eco" data-color="--hero-ink" data-glow="--hero-glow-3d" data-fit="hero" data-wait></canvas>
       </div>
       <canvas class="hero__omvi" data-3d="omvi" data-color="--hero-ink" data-glow="--hero-glow-3d" aria-hidden="true"></canvas>
       <div class="omvi-wrap">
