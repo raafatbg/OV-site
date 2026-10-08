@@ -3,87 +3,180 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact &amp; Project Inquiries — OmniVora</title>
-  <meta name="description" content="Start a project with OmniVora — boutique software engineering studio in Beirut. Direct WhatsApp +961 70 374 702 or email hello@omnivora.dev." />
-
-  <!-- Favicon -->
+  <title>Contact — Start a Project — OmniVora</title>
+  <meta name="description" content="Start a project with OmniVora, a software engineering studio in Beirut. WhatsApp +961 70 374 702 or email hello@omnivora.dev — replies within 24–48 hours." />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <meta name="theme-color" content="#08090c" />
+  <link rel="canonical" href="https://omnivora.dev/contact.html" />
+  <meta name="theme-color" content="#1c1c1c" />
 
-  <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Contact &amp; Project Inquiries — OmniVora" />
-  <meta property="og:description" content="Start a project with OmniVora — boutique software engineering studio in Beirut." />
-  <meta property="og:image" content="assets/og-preview.jpg" />
+  <meta property="og:url" content="https://omnivora.dev/contact.html" />
+  <meta property="og:site_name" content="OmniVora" />
+  <meta property="og:title" content="Contact — Start a Project — OmniVora" />
+  <meta property="og:description" content="Start a project with OmniVora, a software engineering studio in Beirut. WhatsApp +961 70 374 702 or email hello@omnivora.dev — replies within 24–48 hours." />
+  <meta property="og:image" content="https://omnivora.dev/assets/og-preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Contact &amp; Project Inquiries — OmniVora" />
-  <meta name="twitter:description" content="Start a project with OmniVora — boutique software engineering studio in Beirut." />
-  <meta name="twitter:image" content="assets/og-preview.jpg" />
+  <meta name="twitter:title" content="Contact — Start a Project — OmniVora" />
+  <meta name="twitter:description" content="Start a project with OmniVora, a software engineering studio in Beirut. WhatsApp +961 70 374 702 or email hello@omnivora.dev — replies within 24–48 hours." />
+  <meta name="twitter:image" content="https://omnivora.dev/assets/og-preview.jpg" />
 
+  <!-- Fonts: Fraunces (display) + Inter (UI/body) + IBM Plex Sans Arabic (Arabic names)
+       + Archivo Expanded ExtraBold, subset to the logotype letters (OMNIVORA / OMVI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Archivo:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/home.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@300;400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800&text=OMNIVRA&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/home.css?v=99a92620" />
 </head>
 <body data-page="contact">
-  <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor__ring" id="cursorRing"></div></div>
+  <a class="skip-link" href="#top">Skip to content</a>
 
   <header class="nav" id="nav">
-    <a href="index.html" class="nav__brand">OMNIVORA<sup>®</sup></a>
+    <a href="index.html" class="nav__brand" aria-label="OmniVora home">OMNIVORA<sup>•</sup></a>
     <nav class="nav__links" aria-label="Primary">
       <a href="work.html" class="nav__link">Work</a>
       <a href="services.html" class="nav__link">Services</a>
+      <a href="industries.html" class="nav__link">Industries</a>
       <a href="studio.html" class="nav__link">Studio</a>
       <a href="contact.html" class="nav__link">Contact</a>
     </nav>
-    <button class="nav__menu" id="menuBtn" aria-label="Menu">Menu</button>
+    <div class="nav__end">
+      <a href="contact.html" class="nav__cta">Start a project <i>→</i></a>
+      <button class="nav__menu" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="overlay">Menu</button>
+    </div>
   </header>
+
   <nav class="overlay" id="overlay" aria-label="Menu">
-    <a href="index.html">Home</a><a href="work.html">Work</a><a href="services.html">Services</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="work.html">Work</a>
+    <a href="services.html">Services</a>
+    <a href="industries.html">Industries</a>
+    <a href="studio.html">Studio</a>
+    <a href="contact.html">Contact</a>
     <div class="overlay__meta">Beirut, Lebanon — +961 70 374 702</div>
   </nav>
 
   <main id="top">
     <header class="phd">
-      <p class="phd__index" data-anim="rise">(05) — Contact</p>
+      <canvas class="phd__3d" data-3d="geo" data-color="#262626" aria-hidden="true"></canvas>
+      <p class="phd__index" data-anim="rise">(06) — Contact</p>
       <h1 class="phd__title" data-anim="rise">Start a <em>project.</em></h1>
-      <p class="phd__lede" data-anim="rise">Tell us about your project requirements. We review inquiries promptly and reply within 24–48 hours in English or Arabic.</p>
+      <p class="phd__lede" data-anim="rise">Tell us what you're building. We reply within 24–48 hours, in English or Arabic.</p>
     </header>
 
-    <!-- primary: the toggle -->
-    <section class="contact" id="contact">
-      <p class="contact__kicker" data-anim="rise">Direct Communication Channels</p>
-      <h2 class="contact__title" data-anim="rise">Say <em>hello.</em></h2>
-      <div class="switch" role="tablist" aria-label="Contact method">
-        <button data-tab="whatsapp" class="is-active" role="tab">WhatsApp</button>
-        <button data-tab="email" role="tab">Email</button>
+    <section class="brief" id="brief-section">
+      <form class="brief__form" id="brief" novalidate>
+        <p class="sec-head__kicker">Project brief</p>
+        <div class="field--row">
+          <div class="field"><label for="b-name">Your name</label><input id="b-name" name="name" type="text" autocomplete="name" required /></div>
+          <div class="field"><label for="b-biz">Business</label><input id="b-biz" name="business" type="text" autocomplete="organization" /></div>
+        </div>
+        <fieldset class="field">
+          <legend>What do you need?</legend>
+          <div class="chips">
+              <label class="chip"><input type="checkbox" name="need" value="POS system" /><span>POS system</span></label>
+              <label class="chip"><input type="checkbox" name="need" value="Mobile / web app" /><span>Mobile / web app</span></label>
+              <label class="chip"><input type="checkbox" name="need" value="Dashboard" /><span>Dashboard</span></label>
+              <label class="chip"><input type="checkbox" name="need" value="Integration" /><span>Integration</span></label>
+              <label class="chip"><input type="checkbox" name="need" value="SaaS platform" /><span>SaaS platform</span></label>
+              <label class="chip"><input type="checkbox" name="need" value="Not sure yet" /><span>Not sure yet</span></label>
+          </div>
+        </fieldset>
+        <div class="field"><label for="b-msg">Tell us about it</label><textarea id="b-msg" name="message" rows="4" placeholder="A few lines about your business and what you'd like to build."></textarea></div>
+        <p class="brief__error" role="alert" hidden>Please add your name so we know who to reply to.</p>
+        <div class="brief__actions">
+          <button class="btn btn--primary" type="submit" value="whatsapp">Send via WhatsApp <i>→</i></button>
+          <button class="btn btn--line" type="submit" value="email">Send via email</button>
+        </div>
+        <p class="brief__note">Your brief opens in WhatsApp or your email app, ready to send — nothing is stored on this site.</p>
+      </form>
+
+      <aside class="brief__aside">
+        <div class="cblock"><h4>WhatsApp</h4><a href="https://wa.me/96170374702?text=Hello%20OmniVora,%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener">+961 70 374 702</a></div>
+        <div class="cblock"><h4>Email</h4><a href="mailto:hello@omnivora.dev">hello@omnivora.dev</a></div>
+        <div class="cblock"><h4>Studio</h4><p>Beirut, Lebanon</p></div>
+        <div class="cblock"><h4>Availability</h4><p>Accepting new projects</p></div>
+        <div class="cblock"><h4>Languages</h4><p>English &amp; <span lang="ar">العربية</span></p></div>
+      </aside>
+    </section>
+
+    <section class="block">
+      <div class="sec-head">
+        <div>
+          <p class="sec-head__kicker" data-anim="rise">What happens next</p>
+          <h2 class="sec-head__title">Three <em>steps</em></h2>
+        </div>
       </div>
-      <div class="contact__reveal">
-        <a class="contact__line is-shown" id="waLine" href="https://wa.me/96170374702?text=Hello%20OmniVora,%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener">wa.me / +961 70 374 702 <i>→</i></a>
-        <a class="contact__line" id="emLine" href="mailto:hello@omnivora.dev">hello@omnivora.dev <i>→</i></a>
+      <div class="cards3">
+        <article class="card"><span class="card__n">01</span><h3 class="card__t">Tell us about it</h3><p class="card__d">Send a short brief by WhatsApp or email. A few lines is enough to start the conversation.</p></article>
+        <article class="card"><span class="card__n">02</span><h3 class="card__t">Discovery call</h3><p class="card__d">We talk through your operation, constraints and goals — and visit on-site when it helps.</p></article>
+        <article class="card"><span class="card__n">03</span><h3 class="card__t">Scope &amp; plan</h3><p class="card__d">You receive a clear scope, milestone plan and timeline before any build begins.</p></article>
       </div>
     </section>
 
-    <section class="cdetails">
+    <section class="faq">
       <div>
-        <div class="cblock"><h4>WhatsApp</h4><a href="https://wa.me/96170374702?text=Hello%20OmniVora,%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener">+961 70 374 702</a></div>
-        <div class="cblock"><h4>Email</h4><a href="mailto:hello@omnivora.dev">hello@omnivora.dev</a></div>
+        <p class="sec-head__kicker" data-anim="rise">FAQ</p>
+        <h2 class="sec-head__title">Common <em>questions</em></h2>
       </div>
-      <div>
-        <div class="cblock"><h4>Studio Location</h4><p>Beirut, Lebanon</p></div>
-        <div class="cblock"><h4>Availability</h4><p>Accepting new projects — 2026</p></div>
-        <div class="cblock"><h4>Languages</h4><p>English &amp; العربية</p></div>
+      <div class="faq__list">
+        <div class="faq__item">
+          <h3><button class="faq__q" id="faq-q0" aria-controls="faq-a0" aria-expanded="false">Can the system really keep working without internet?<i aria-hidden="true"></i></button></h3>
+          <div class="faq__a" id="faq-a0" role="region" aria-labelledby="faq-q0"><p>Yes. Our POS and apps are offline-first: every sale, return and stock movement is saved on the device first and synced when the connection returns. Staff keep working through power cuts and network drops, and nothing is lost or double-counted.</p></div>
+        </div>
+        <div class="faq__item">
+          <h3><button class="faq__q" id="faq-q1" aria-controls="faq-a1" aria-expanded="false">Do you support USD and LBP together?<i aria-hidden="true"></i></button></h3>
+          <div class="faq__a" id="faq-a1" role="region" aria-labelledby="faq-q1"><p>Yes. Dual-currency pricing, change calculation, exchange-rate updates and end-of-day reconciliation are built into the data model from the start.</p></div>
+        </div>
+        <div class="faq__item">
+          <h3><button class="faq__q" id="faq-q2" aria-controls="faq-a2" aria-expanded="false">Is the interface fully in Arabic?<i aria-hidden="true"></i></button></h3>
+          <div class="faq__a" id="faq-a2" role="region" aria-labelledby="faq-q2"><p>Our interfaces are designed right-to-left from the first wireframe, not translated afterwards. Staff can work in Arabic or English, and receipts can be bilingual.</p></div>
+        </div>
+        <div class="faq__item">
+          <h3><button class="faq__q" id="faq-q3" aria-controls="faq-a3" aria-expanded="false">Can you integrate with our hardware and payment providers?<i aria-hidden="true"></i></button></h3>
+          <div class="faq__a" id="faq-a3" role="region" aria-labelledby="faq-q3"><p>We integrate with Whish Pay and regional payment gateways, receipt and fiscal printers, barcode scanners, cash drawers and third-party ERP or accounting systems.</p></div>
+        </div>
+        <div class="faq__item">
+          <h3><button class="faq__q" id="faq-q4" aria-controls="faq-a4" aria-expanded="false">How long does a project take?<i aria-hidden="true"></i></button></h3>
+          <div class="faq__a" id="faq-a4" role="region" aria-labelledby="faq-q4"><p>It depends on scope. After a short discovery phase you receive a clear scope and milestone plan, so you know what will be delivered and when before the build begins.</p></div>
+        </div>
+        <div class="faq__item">
+          <h3><button class="faq__q" id="faq-q5" aria-controls="faq-a5" aria-expanded="false">What happens after launch?<i aria-hidden="true"></i></button></h3>
+          <div class="faq__a" id="faq-a5" role="region" aria-labelledby="faq-q5"><p>We handle on-site setup and staff onboarding, then monitor and support the system in production. You deal with the same engineers who built it.</p></div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <span class="brand">OMNIVORA</span><span>Software that survives Beirut</span><span>© 2026 · Beirut, Lebanon</span>
+    <div class="footer__top">
+      <div class="footer__brand">
+        <p class="footer__word">Built to keep business <em>moving.</em></p>
+        <p class="footer__blurb">OmniVora is a software engineering studio in Beirut, building offline-first POS systems, mobile &amp; web applications, and operational dashboards.</p>
+      </div>
+      <nav class="footer__col" aria-label="Footer">
+        <h4>Studio</h4>
+        <a href="work.html">Work</a><a href="services.html">Services</a><a href="industries.html">Industries</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer__col">
+        <h4>Get in touch</h4>
+        <a href="https://wa.me/96170374702" target="_blank" rel="noopener">WhatsApp +961 70 374 702</a>
+        <a href="mailto:hello@omnivora.dev">hello@omnivora.dev</a>
+        <span>Beirut, Lebanon</span>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 OmniVora. All rights reserved.</span>
+      <span>33.8938°N, 35.5018°E</span>
+    </div>
+    <div class="footer__mark" aria-hidden="true"><span>OMNIVORA</span></div>
   </footer>
 
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
-  <script src="vendor/lenis.min.js"></script>
-  <script src="js/home.js"></script>
+  <script src="js/home.js?v=4f1db732"></script>
+  <script src="js/scene3d.js?v=ac3b970f"></script>
 </body>
 </html>

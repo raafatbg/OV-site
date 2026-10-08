@@ -1,1 +1,1 @@
-OmniVora website. Static site, deployed via Firebase Hosting.
+OmniVora website. Static site, deployed to GitHub Pages via .github/workflows/deploy.yml.

@@ -3,75 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Studio Philosophy — OmniVora</title>
-  <meta name="description" content="OmniVora is a boutique software engineering studio in Beirut. Regional expertise: offline resilience, Arabic-native UI, dual-currency pricing, and high-uptime systems." />
-
-  <!-- Favicon -->
+  <title>Studio — OmniVora · Software Engineering in Beirut</title>
+  <meta name="description" content="OmniVora is a software engineering studio in Beirut. Regional expertise in offline resilience, Arabic-native UI, dual-currency pricing and high-uptime systems." />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <meta name="theme-color" content="#08090c" />
+  <link rel="canonical" href="https://omnivora.dev/studio.html" />
+  <meta name="theme-color" content="#1c1c1c" />
 
-  <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Studio Philosophy — OmniVora" />
-  <meta property="og:description" content="Boutique software engineering studio in Beirut. Regional expertise: offline resilience, Arabic-native UI, dual-currency pricing, and high-uptime systems." />
-  <meta property="og:image" content="assets/og-preview.jpg" />
+  <meta property="og:url" content="https://omnivora.dev/studio.html" />
+  <meta property="og:site_name" content="OmniVora" />
+  <meta property="og:title" content="Studio — OmniVora · Software Engineering in Beirut" />
+  <meta property="og:description" content="OmniVora is a software engineering studio in Beirut. Regional expertise in offline resilience, Arabic-native UI, dual-currency pricing and high-uptime systems." />
+  <meta property="og:image" content="https://omnivora.dev/assets/og-preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Studio Philosophy — OmniVora" />
-  <meta name="twitter:description" content="Boutique software engineering studio in Beirut. Regional expertise: offline resilience, Arabic-native UI, dual-currency pricing, and high-uptime systems." />
-  <meta name="twitter:image" content="assets/og-preview.jpg" />
+  <meta name="twitter:title" content="Studio — OmniVora · Software Engineering in Beirut" />
+  <meta name="twitter:description" content="OmniVora is a software engineering studio in Beirut. Regional expertise in offline resilience, Arabic-native UI, dual-currency pricing and high-uptime systems." />
+  <meta name="twitter:image" content="https://omnivora.dev/assets/og-preview.jpg" />
 
+  <!-- Fonts: Fraunces (display) + Inter (UI/body) + IBM Plex Sans Arabic (Arabic names)
+       + Archivo Expanded ExtraBold, subset to the logotype letters (OMNIVORA / OMVI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Archivo:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/home.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@300;400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800&text=OMNIVRA&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/home.css?v=99a92620" />
 </head>
 <body data-page="studio">
-  <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor__ring" id="cursorRing"></div></div>
+  <a class="skip-link" href="#top">Skip to content</a>
 
   <header class="nav" id="nav">
-    <a href="index.html" class="nav__brand">OMNIVORA<sup>®</sup></a>
+    <a href="index.html" class="nav__brand" aria-label="OmniVora home">OMNIVORA<sup>•</sup></a>
     <nav class="nav__links" aria-label="Primary">
       <a href="work.html" class="nav__link">Work</a>
       <a href="services.html" class="nav__link">Services</a>
+      <a href="industries.html" class="nav__link">Industries</a>
       <a href="studio.html" class="nav__link">Studio</a>
       <a href="contact.html" class="nav__link">Contact</a>
     </nav>
-    <button class="nav__menu" id="menuBtn" aria-label="Menu">Menu</button>
+    <div class="nav__end">
+      <a href="contact.html" class="nav__cta">Start a project <i>→</i></a>
+      <button class="nav__menu" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="overlay">Menu</button>
+    </div>
   </header>
+
   <nav class="overlay" id="overlay" aria-label="Menu">
-    <a href="index.html">Home</a><a href="work.html">Work</a><a href="services.html">Services</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="work.html">Work</a>
+    <a href="services.html">Services</a>
+    <a href="industries.html">Industries</a>
+    <a href="studio.html">Studio</a>
+    <a href="contact.html">Contact</a>
     <div class="overlay__meta">Beirut, Lebanon — +961 70 374 702</div>
   </nav>
 
   <main id="top">
     <header class="phd">
-      <p class="phd__index" data-anim="rise">(04) — Studio</p>
+      <canvas class="phd__3d" data-3d="globe" data-color="#262626" data-home="33.89,35.5" data-scale="1.1" aria-hidden="true"></canvas>
+      <p class="phd__index" data-anim="rise">(05) — Studio</p>
       <h1 class="phd__title" data-anim="rise">Built for <em>here.</em></h1>
-      <p class="phd__lede" data-anim="rise">A boutique software engineering studio based in Beirut. We engineer high-reliability digital products tailored to the operational realities of our region.</p>
+      <p class="phd__lede" data-anim="rise">A software engineering studio based in Beirut. We build high-reliability products for the operational realities of our region — and we stay accountable for them long after launch.</p>
     </header>
 
     <section class="manifesto">
-      <p class="manifesto__idx" data-anim="rise">Our Philosophy</p>
-      <p class="manifesto__copy" data-anim="rise">Off-the-shelf software is typically built for single-currency economies and stable infrastructure. We engineer for the real world: dual-currency accounting (USD/LBP), native Arabic workflows, intermittent connectivity, and regional payment rails are core engineering requirements — not afterthoughts.</p>
+      <p class="manifesto__idx" data-anim="rise">Our philosophy</p>
+      <p class="manifesto__copy" data-anim="rise">Off-the-shelf software assumes one currency, stable power and a fast connection. We engineer for the real world: <em>dual-currency accounting</em>, native Arabic workflows, intermittent connectivity and local payment rails are core requirements — never afterthoughts.</p>
     </section>
 
     <section class="regd">
       <div class="regd__head">
-        <p class="regd__kicker" data-anim="rise">Regional Expertise</p>
+        <p class="regd__kicker" data-anim="rise">Regional expertise</p>
         <h2 class="regd__h" data-anim="rise">Why it <em>matters</em></h2>
       </div>
       <div class="regd__grid">
-        <article class="regd__card"><span class="regd__n">A</span><h3 class="regd__t">Offline-First Architecture</h3><p class="regd__d">Transactions, stock records, and orders queue locally during network or power drops, synchronizing automatically the instant connection restores.</p></article>
-        <article class="regd__card"><span class="regd__n">B</span><h3 class="regd__t">Arabic-Native &amp; RTL</h3><p class="regd__d">Interfaces designed right-to-left from the ground up — delivering natural typography, bilingual receipts, and frictionless cashier speed.</p></article>
-        <article class="regd__card"><span class="regd__n">C</span><h3 class="regd__t">Dual-Currency &amp; Local Rails</h3><p class="regd__d">Dynamic USD/LBP currency handling, live exchange rate adjustments, and direct integration with Whish Pay and local settlement rails.</p></article>
-        <article class="regd__card"><span class="regd__n">D</span><h3 class="regd__t">High-Throughput Performance</h3><p class="regd__d">Engineered for heavy loads and continuous operation. Lean architectures optimized to run smoothly on standard POS terminals without slowdowns.</p></article>
+        <article class="regd__card"><span class="regd__n">A</span><h3 class="regd__t">Offline-first architecture</h3><p class="regd__d">Transactions, stock records and orders queue locally through network or power drops, then synchronise automatically the instant the connection returns.</p></article>
+        <article class="regd__card"><span class="regd__n">B</span><h3 class="regd__t">Arabic-native &amp; RTL</h3><p class="regd__d">Interfaces designed right-to-left from the ground up — natural typography, bilingual receipts and cashier workflows that stay fast in either language.</p></article>
+        <article class="regd__card"><span class="regd__n">C</span><h3 class="regd__t">Dual-currency &amp; local rails</h3><p class="regd__d">USD/LBP handling with live exchange-rate updates, plus direct integration with Whish Pay and local settlement rails.</p></article>
+        <article class="regd__card"><span class="regd__n">D</span><h3 class="regd__t">High-throughput performance</h3><p class="regd__d">Lean architectures built for continuous operation that run smoothly on standard POS hardware — no slowdowns at peak hour.</p></article>
       </div>
     </section>
 
-    <section class="tech"><p class="tech__line" data-anim="rise">FLUTTER · C# / WPF · SUPABASE · SQL SERVER · THREE.JS</p></section>
+    <section class="block">
+      <div class="sec-head">
+        <div>
+          <p class="sec-head__kicker" data-anim="rise">How we operate</p>
+          <h2 class="sec-head__title">Our <em>principles</em></h2>
+        </div>
+      </div>
+      <div class="cards3">
+        <article class="card"><span class="card__n">01</span><h3 class="card__t">Senior-led, end to end</h3><p class="card__d">The engineers who scope your project are the ones who build it. No hand-offs, no lost context.</p></article>
+        <article class="card"><span class="card__n">02</span><h3 class="card__t">On your counter first</h3><p class="card__d">We spend time where the work happens — the till, the floor, the back office — before we design a single screen.</p></article>
+        <article class="card"><span class="card__n">03</span><h3 class="card__t">Accountable after launch</h3><p class="card__d">We monitor, fix and improve what we ship. Your system going live is the start of the relationship, not the end.</p></article>
+      </div>
+    </section>
 
     <section class="contact" id="contact">
-      <p class="contact__kicker" data-anim="rise">Initiate a Project</p>
+      <p class="contact__kicker" data-anim="rise">Start a project</p>
       <h2 class="contact__title" data-anim="rise">Partner with<br /><em>the studio.</em></h2>
       <div class="switch" role="tablist" aria-label="Contact method">
         <button data-tab="whatsapp" class="is-active" role="tab">WhatsApp</button>
@@ -85,12 +113,32 @@
   </main>
 
   <footer class="footer">
-    <span class="brand">OMNIVORA</span><span>Software that survives Beirut</span><span>© 2026 · Beirut, Lebanon</span>
+    <div class="footer__top">
+      <div class="footer__brand">
+        <p class="footer__word">Built to keep business <em>moving.</em></p>
+        <p class="footer__blurb">OmniVora is a software engineering studio in Beirut, building offline-first POS systems, mobile &amp; web applications, and operational dashboards.</p>
+      </div>
+      <nav class="footer__col" aria-label="Footer">
+        <h4>Studio</h4>
+        <a href="work.html">Work</a><a href="services.html">Services</a><a href="industries.html">Industries</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer__col">
+        <h4>Get in touch</h4>
+        <a href="https://wa.me/96170374702" target="_blank" rel="noopener">WhatsApp +961 70 374 702</a>
+        <a href="mailto:hello@omnivora.dev">hello@omnivora.dev</a>
+        <span>Beirut, Lebanon</span>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 OmniVora. All rights reserved.</span>
+      <span>33.8938°N, 35.5018°E</span>
+    </div>
+    <div class="footer__mark" aria-hidden="true"><span>OMNIVORA</span></div>
   </footer>
 
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
-  <script src="vendor/lenis.min.js"></script>
-  <script src="js/home.js"></script>
+  <script src="js/home.js?v=4f1db732"></script>
+  <script src="js/scene3d.js?v=ac3b970f"></script>
 </body>
 </html>

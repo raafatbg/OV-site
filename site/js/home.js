@@ -6,12 +6,14 @@
    ══════════════════════════════════════════════════ */
 
 // Honor the OS/browser "reduce motion" setting by default. Append ?motion=on to
-// the URL to force the full-motion experience for previewing, regardless of the
-// Default to rich motion while honoring ?motion=off if explicitly requested
+// the URL to force the full-motion experience for previewing, or ?motion=off to
+// preview the reduced experience.
+const FORCE_MOTION = /[?&]motion=on\b/.test(location.search);
 const FORCE_REDUCED = /[?&]motion=off\b/.test(location.search);
-const REDUCED = FORCE_REDUCED;
-const FORCE_MOTION = !FORCE_REDUCED;
-document.documentElement.classList.add('force-motion');
+const OS_REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const REDUCED = FORCE_REDUCED || (OS_REDUCED && !FORCE_MOTION);
+if (FORCE_MOTION) document.documentElement.classList.add('force-motion');
+if (REDUCED) document.documentElement.classList.add('reduce-motion');
 const TOUCH = matchMedia('(hover: none), (pointer: coarse)').matches;
 const HAS_GSAP = typeof window.gsap !== 'undefined';
 
@@ -87,34 +89,14 @@ function initLenis() {
       if (t) { e.preventDefault(); lenis ? lenis.scrollTo(t, { duration: 1.2 }) : t.scrollIntoView({ behavior: 'smooth' }); }
     });
   });
-  if (REDUCED || typeof Lenis === 'undefined') { anchor(); return; }
-  lenis = new Lenis({ duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, wheelMultiplier: 0.9, touchMultiplier: 1.6 });
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((t) => lenis.raf(t * 1000));
-  gsap.ticker.lagSmoothing(0);
+  // Native scrolling: no smooth-scroll layer between the wheel/touch and the page.
   anchor();
-}
-
-/* ═══════ momentum cursor (ring 2.5x + invert) ═══════ */
-function initCursor() {
-  if (TOUCH || !HAS_GSAP) return;
-  const cur = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  if (!cur) return;
-  let mx = innerWidth / 2, my = innerHeight / 2, x = mx, y = my;
-  addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
-  gsap.ticker.add(() => { x += (mx - x) * 0.18; y += (my - y) * 0.18; ring.style.transform = `translate(${x}px, ${y}px) translate(-50%,-50%)`; });
-  const hot = 'a, button, [data-cursor], .proj__media, .switch button, .sig__item, .regd__card, .svcd, .proj__link';
-  document.querySelectorAll(hot).forEach((el) => {
-    el.addEventListener('mouseenter', () => cur.classList.add('is-hover'));
-    el.addEventListener('mouseleave', () => cur.classList.remove('is-hover'));
-  });
 }
 
 /* ═══════ magnetic interactives ═══════ */
 function initMagnetic() {
-  if (TOUCH || !HAS_GSAP) return;
-  document.querySelectorAll('[data-magnetic], .proj__link, .switch button, .nav__brand, .cblock a, .hero__cue').forEach((el) => {
+  if (TOUCH || !HAS_GSAP || REDUCED) return;
+  document.querySelectorAll('[data-magnetic], .proj__link, .switch button, .nav__brand, .cblock a, .hero__cue, .btn, .nav__cta').forEach((el) => {
     const s = 0.34;
     el.addEventListener('mousemove', (e) => {
       const r = el.getBoundingClientRect();
@@ -245,108 +227,120 @@ function initHeroVideo() {
   else video.addEventListener('loadedmetadata', build, { once: true });
 }
 
-// Standalone hero intro (used when no preloader owns the hand-off).
+// Supporting hero copy (eyebrow, sub, CTAs…) — optional; the brand hero has none.
+const heroBits = () => document.querySelectorAll('#hero .hero__eyebrow, #hero .hero__sub, #hero .hero__cta, #hero .hero__proof, #hero .hero__metrics > div');
+
+/* ═══════ HERO scroll: the 3D model lifts away (the point-cloud OMVI dissolves itself) ═══════ */
+function initHeroScroll() {
+  if (!HAS_GSAP || REDUCED || !window.ScrollTrigger || !document.querySelector('.hero--brand')) return;
+  gsap.to('.hero--brand .hero__stage', { yPercent: -14, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+}
+
+// Standalone hero intro (used when no loader owns the hand-off).
 function heroIntro() {
   const words = document.querySelectorAll('.hero__title .w');
-  gsap.set(words, { yPercent: 110, autoAlpha: 1, filter: 'blur(6px)' });
-  gsap.to(words, { yPercent: 0, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out', stagger: 0.09 });
-  gsap.fromTo('.hero__eyebrow, .hero__sub, .hero__foot-item, .hero__cue',
+  if (words.length) {
+    gsap.set(words, { yPercent: 110, autoAlpha: 1, filter: 'blur(6px)' });
+    gsap.to(words, { yPercent: 0, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out', stagger: 0.09 });
+  }
+  const bits = heroBits();
+  if (bits.length) gsap.fromTo(bits,
     { y: 22, autoAlpha: 0, filter: 'blur(6px)' },
     { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1, ease: 'power3.out', stagger: 0.1, delay: 0.45 });
 }
 
 function heroReveal() {
-  if (!HAS_GSAP) return;
+  if (!HAS_GSAP || REDUCED) return;
   heroParallax();
-  if (heroOwnedByPreloader) return; // preloader's master timeline runs the intro
+  if (heroOwnedByPreloader) return; // the loader's timeline runs the intro
   heroIntro();
+  document.dispatchEvent(new Event('ov:hero')); // wake the 3D model (scene3d.js)
 }
 
-/* ═══════ PRELOADER → HERO master timeline (home only) ═══════ */
-// Everything lives on one timeline so the hand-off into the hero is exact,
-// not guessed via delay: values that drift out of sync. Runs only on the home
-// page (the .preloader element exists) and only with motion enabled.
-function initPreloader() {
-  const pre = document.querySelector('.preloader');
-  if (!pre) return; // not the home page
-  const digit = pre.querySelector('.preloader-digit');
-  const fill = pre.querySelector('.preloader-bar-fill');
-  const markI = pre.querySelector('.preloader-mark__i');
-  const mark = pre.querySelector('.preloader-mark');
-  const tag = pre.querySelector('.preloader-tag');
-
+/* ═══════ LOADER: the hero builds itself (home only) ═══════ */
+// There is no separate splash screen. While the page loads, scene3d.js prints the
+// point-cloud OMVI bottom-up with a crimson beam in step with real progress
+// (canvas data-print); once ready the readout clears, the word glides down into
+// place (data-settle), the 3D model spins in and the nav drops down.
+function initLoader() {
+  const hud = document.querySelector('.loader');
+  if (!hud) return; // not the home page
+  const root = document.documentElement;
+  const canvas = document.querySelector('canvas[data-3d="omvi"]');
+  const num = hud.querySelector('.loader__num');
+  const bar = hud.querySelector('.loader__bar i');
   const lock = () => { document.body.style.overflow = 'hidden'; if (lenis) lenis.stop(); };
   const unlock = () => { document.body.style.overflow = ''; if (lenis) lenis.start(); };
+  const set = (key, v) => { if (canvas) canvas.dataset[key] = v.toFixed(4); };
 
-  // No-motion / no-GSAP: never trap the viewer behind an opaque panel.
-  if (!HAS_GSAP || REDUCED) { pre.remove(); unlock(); return; }
+  // No-motion / no-GSAP: skip the show and land on the finished hero.
+  if (!HAS_GSAP || REDUCED) { hud.remove(); set('print', 1); set('settle', 1); return; }
 
-  heroOwnedByPreloader = true; // heroReveal() will skip its standalone intro
+  heroOwnedByPreloader = true; // heroReveal() skips its standalone intro
+  root.classList.add('is-loading');
   lock();
+  set('print', 0);
+  set('settle', 0);
 
-  // Prep the hero to its hidden start-state now, while the panel still covers it.
-  gsap.set('.hero__title .w', { yPercent: 110, autoAlpha: 1, filter: 'blur(6px)' });
-  gsap.set('.hero__eyebrow, .hero__sub, .hero__foot-item, .hero__cue', { y: 22, autoAlpha: 0, filter: 'blur(6px)' });
-  const statEl = document.querySelector('.hero__foot-item b'); // the "03" stat
-  if (statEl) statEl.textContent = '00';
-
-  // Explicit start clip so the exit wipe interpolates the bottom inset (not from `none`).
-  gsap.set(pre, { clipPath: 'inset(0 0 0% 0)' });
-
-  // Wordmark rises immediately — big, deliberate masked rise (hero language).
-  gsap.set(markI, { yPercent: 100 });
-  gsap.to(markI, { yPercent: 0, duration: 1.0, ease: 'expo.out' });
-  // Tagline breathes in just after the wordmark lands.
-  if (tag) { gsap.set(tag, { autoAlpha: 0, y: 10 });
-    gsap.to(tag, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.55 }); }
-
-  // Counter + bar are real progress: creep toward 92 while assets load, then the
-  // master timeline below finishes them to 100 the moment the page is ready.
-  // Counter is zero-padded to three digits (000 → 100) for an editorial readout.
   const prog = { v: 0 };
-  const paint = () => { if (digit) digit.textContent = String(Math.floor(prog.v)).padStart(3, '0'); if (fill) fill.style.width = prog.v + '%'; };
-  gsap.to(prog, { v: 92, duration: 2.4, ease: 'power1.out', onUpdate: paint });
+  const paint = () => {
+    set('print', prog.v);
+    if (num) num.textContent = String(Math.round(prog.v * 100)).padStart(3, '0');
+    if (bar) bar.style.transform = `scaleX(${prog.v.toFixed(4)})`;
+  };
+  gsap.fromTo(Array.from(hud.children), { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, ease: 'power3.out', stagger: 0.08 });
+  // Real progress: creep toward 90% while assets load, finish once the page is ready.
+  gsap.to(prog, { v: 0.9, duration: 2.8, ease: 'power1.out', onUpdate: paint });
 
   whenReady().then(() => {
     gsap.killTweensOf(prog);
-    const stat = { v: 0 };
-
-    const master = gsap.timeline({ onComplete: () => { pre.remove(); unlock(); } });
-
-    // 1. Finish the count + bar to 100 from wherever the creep reached.
-    master.to(prog, { v: 100, duration: 0.6, ease: 'power2.out', onUpdate: paint });
-    // 2. A held beat of stillness at 100 — a deliberate pause, not an instant cut.
-    master.to({}, { duration: 0.45 });
-    // 3. Readouts (wordmark, tagline, count, bar) collapse up together.
-    master.to([mark, tag, '.preloader-count', '.preloader-bar-track'].filter(Boolean),
-      { autoAlpha: 0, yPercent: -20, duration: 0.5, ease: 'power3.in', stagger: 0.05 });
-    // 4. Panel wipes up via clip-path (same wipe vocabulary as the Work reveals).
-    master.to(pre, { clipPath: 'inset(0 0 100% 0)', duration: 1.0, ease: 'power4.inOut' }, '-=0.2');
-    // 5. Critical: refresh once the panel is clearing, before pin/scrub math matters.
-    master.add(() => { if (window.ScrollTrigger) ScrollTrigger.refresh(); }, '-=0.55');
-    // 6. Hero headline words, overlapping the tail of the wipe.
-    //    expo.out = fmrg's signature "fast start, very slow finish" settle.
-    master.to('.hero__title .w', { yPercent: 0, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out', stagger: 0.09 }, '-=0.45');
-    // 7. Eyebrow / sub / foot / cue follow.
-    master.to('.hero__eyebrow, .hero__sub, .hero__foot-item, .hero__cue',
-      { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1, ease: 'power3.out', stagger: 0.1 }, '-=0.75');
-    // 8. The "03" stat counts up last, zero-padded to keep the editorial framing.
-    if (statEl) master.to(stat, { v: 3, duration: 0.9, ease: 'power2.out', snap: { v: 1 },
-      onUpdate: () => { statEl.textContent = String(Math.round(stat.v)).padStart(2, '0'); } }, '-=0.5');
+    const settle = { v: 0 };
+    const tl = gsap.timeline({ onComplete: () => { hud.remove(); unlock(); } });
+    tl.to(prog, { v: 1, duration: 0.8, ease: 'power2.out', onUpdate: paint })
+      .to({}, { duration: 0.35 }) // a held beat on the finished word
+      .to(hud, { autoAlpha: 0, y: 14, duration: 0.5, ease: 'power2.in' })
+      .add(() => {
+        root.classList.remove('is-loading');
+        document.dispatchEvent(new Event('ov:hero')); // the 3D model spins in (scene3d.js)
+        if (window.ScrollTrigger) ScrollTrigger.refresh();
+      }, '<0.15')
+      .to(settle, { v: 1, duration: 1.7, ease: 'expo.inOut', onUpdate: () => set('settle', settle.v) }, '<')
+      .fromTo('#nav', { yPercent: -170 }, { yPercent: 0, duration: 1.2, ease: 'expo.out', clearProps: 'transform' }, '<0.6');
   });
 }
 
 /* ═══════ masked heading reveals ═══════ */
 function initHeadings() {
-  if (!HAS_GSAP || !window.ScrollTrigger) return;
-  document.querySelectorAll('.phd__title, .contact__title, .regd__h, .statement__line').forEach((el) => {
+  if (!HAS_GSAP || !window.ScrollTrigger || REDUCED) return;
+  document.querySelectorAll('.phd__title, .contact__title, .regd__h, .statement__line, .sec-head__title, .sync__title, .sdetail__t, .intro__title').forEach((el) => {
     const words = splitMask(el);
     gsap.set(el, { autoAlpha: 1 });
     gsap.set(words, { yPercent: 110 });
     gsap.to(words, { yPercent: 0, duration: 1.15, ease: 'expo.out', stagger: 0.07,
       scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
   });
+  // metric counters outside the signal strip count up as they scroll in
+  document.querySelectorAll('.hero__metrics [data-count]').forEach((c) => {
+    const target = +c.dataset.count, pad = +(c.dataset.pad || 0), o = { v: 0 };
+    const paint = () => { c.textContent = String(Math.round(o.v)).padStart(pad, '0'); };
+    paint();
+    gsap.to(o, { v: target, duration: 1.6, ease: 'power3.out', onUpdate: paint, scrollTrigger: { trigger: c, start: 'top 95%', once: true } });
+  });
   document.querySelectorAll('.sig__num').forEach((el) => {
+    const counter = el.querySelector('[data-count]');
+    if (counter) {
+      // number stats flip up in 3D, then count from zero
+      const target = +counter.dataset.count, pad = +(counter.dataset.pad || 0), o = { v: 0 };
+      const paint = () => { counter.textContent = String(Math.round(o.v)).padStart(pad, '0'); };
+      paint();
+      gsap.set(el, { autoAlpha: 1 });
+      const st = { trigger: '.signal', start: 'top 80%', once: true };
+      gsap.fromTo(el, { rotationX: -95, transformPerspective: 700, transformOrigin: '50% 100%', autoAlpha: 0 },
+        { rotationX: 0, autoAlpha: 1, duration: 1.3, ease: 'expo.out', scrollTrigger: st });
+      gsap.to(o, { v: target, duration: 1.8, ease: 'power3.out', onUpdate: paint, scrollTrigger: st });
+      return;
+    }
     const words = splitMask(el);
     gsap.set(el, { autoAlpha: 1 });
     gsap.set(words, { yPercent: 110 });
@@ -357,7 +351,7 @@ function initHeadings() {
 
 /* ═══════ SIGNAL labels rise ═══════ */
 function initSignal() {
-  if (!HAS_GSAP || !window.ScrollTrigger) return;
+  if (!HAS_GSAP || !window.ScrollTrigger || REDUCED) return;
   gsap.utils.toArray('.sig__label').forEach((el, i) => {
     gsap.fromTo(el, { y: 24, autoAlpha: 0, filter: 'blur(6px)' },
       { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out', delay: 0.1 + i * 0.08,
@@ -367,7 +361,7 @@ function initSignal() {
 
 /* ═══════ WORK: clip wipe + image scale + masked title + content stagger ═══════ */
 function initWork() {
-  if (!HAS_GSAP || !window.ScrollTrigger) return;
+  if (!HAS_GSAP || !window.ScrollTrigger || REDUCED) return;
   gsap.utils.toArray('.proj').forEach((proj) => {
     const media = proj.querySelector('.proj__media-inner');
     const ph = proj.querySelector('.proj__ph');
@@ -381,6 +375,12 @@ function initWork() {
     gsap.set(media, { clipPath: fromRight ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)' });
     gsap.to(media, { clipPath: 'inset(0 0% 0 0%)', duration: 1.15, ease: 'power4.inOut',
       scrollTrigger: { trigger: proj, start: 'top 74%', once: true } });
+    // 3D swing-in: the card turns toward the viewer as the wipe opens
+    const card = proj.querySelector('.proj__media');
+    if (card) gsap.fromTo(card,
+      { rotationY: fromRight ? -22 : 22, rotationX: 10, z: -120, transformPerspective: 1400, transformOrigin: fromRight ? '100% 50%' : '0% 50%' },
+      { rotationY: 0, rotationX: 0, z: 0, duration: 1.6, ease: 'expo.out',
+        scrollTrigger: { trigger: proj, start: 'top 74%', once: true } });
     // image scale settle behind the wipe (clamped to the 1.2s ceiling)
     if (ph) {
       gsap.fromTo(ph, { scale: 1.18 }, { scale: 1, duration: 1.2, ease: 'expo.out',
@@ -439,15 +439,15 @@ function initWhy() {
   });
   panels.forEach((p) => {
     const line = p.querySelector('.hpanel__line');
-    gsap.fromTo(line, { y: 46, autoAlpha: 0, filter: 'blur(9px)' },
-      { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.1, ease: 'expo.out',
+    gsap.fromTo(line, { rotationX: -70, y: 40, autoAlpha: 0, transformPerspective: 1200, transformOrigin: '50% 100%' },
+      { rotationX: 0, y: 0, autoAlpha: 1, duration: 1.3, ease: 'expo.out',
         scrollTrigger: { trigger: p, containerAnimation: hTween, start: 'left 68%', once: true } });
   });
 }
 
 /* ═══════ generic rise ═══════ */
 function initGeneric() {
-  if (!HAS_GSAP || !window.ScrollTrigger) return;
+  if (!HAS_GSAP || !window.ScrollTrigger || REDUCED) return;
   gsap.utils.toArray('[data-anim="rise"]').forEach((el) => {
     gsap.to(el, { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out',
       scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
@@ -457,7 +457,7 @@ function initGeneric() {
 /* ═══════ tech strip: letter-spacing breathe-in ═══════ */
 // Tracking expands from tight (0.02em) to the CSS-final wide value as it enters.
 function initTech() {
-  if (!HAS_GSAP || !window.ScrollTrigger) return;
+  if (!HAS_GSAP || !window.ScrollTrigger || REDUCED) return;
   const line = document.querySelector('.tech__line');
   if (!line) return;
   gsap.from(line, { opacity: 0, letterSpacing: '0.02em', duration: 1, ease: 'power2.out',
@@ -481,14 +481,14 @@ function initMarquee() {
 
 /* ═══════ approach: masked word fill-in ═══════ */
 function initApproach() {
-  if (!HAS_GSAP || !window.ScrollTrigger) return;
-  const copy = document.querySelector('.approach__copy');
-  if (!copy) return;
-  const words = splitMask(copy);
-  gsap.set(copy, { autoAlpha: 1 });
-  gsap.set(words, { yPercent: 110 });
-  gsap.to(words, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.025,
-    scrollTrigger: { trigger: copy, start: 'top 82%', once: true } });
+  if (!HAS_GSAP || !window.ScrollTrigger || REDUCED) return;
+  document.querySelectorAll('.approach__copy').forEach((copy) => {
+    const words = splitMask(copy);
+    gsap.set(copy, { autoAlpha: 1 });
+    gsap.set(words, { yPercent: 110 });
+    gsap.to(words, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.025,
+      scrollTrigger: { trigger: copy, start: 'top 82%', once: true } });
+  });
 }
 
 /* ═══════ scroll-velocity skew (the signature premium micro-motion) ═══════ */
@@ -512,6 +512,7 @@ function initNav() {
     let last = 0;
     ScrollTrigger.create({ start: 0, end: 'max', onUpdate: (self) => {
       const y = self.scroll();
+      nav.classList.toggle('is-scrolled', y > 40);
       if (!overlay || !overlay.classList.contains('is-open')) {
         if (y > last && y > 500) nav.classList.add('is-hidden'); else nav.classList.remove('is-hidden');
       }
@@ -522,6 +523,7 @@ function initNav() {
     const toggle = (open) => {
       overlay.classList.toggle('is-open', open);
       menuBtn.textContent = open ? 'Close' : 'Menu';
+      menuBtn.setAttribute('aria-expanded', String(open));
       if (lenis) open ? lenis.stop() : lenis.start();
     };
     menuBtn.addEventListener('click', () => toggle(!overlay.classList.contains('is-open')));
@@ -564,11 +566,18 @@ function initContact() {
   };
 
   const select = (key) => {
-    btns.forEach((b) => b.classList.toggle('is-active', b.dataset.tab === key));
+    btns.forEach((b) => {
+      b.classList.toggle('is-active', b.dataset.tab === key);
+      b.setAttribute('aria-selected', String(b.dataset.tab === key));
+    });
     Object.entries(lines).forEach(([k, el]) => el && el.classList.toggle('is-shown', k === key));
     place(Array.from(btns).find((b) => b.dataset.tab === key));
   };
-  btns.forEach((b) => b.addEventListener('click', () => select(b.dataset.tab)));
+  btns.forEach((b) => {
+    const line = lines[b.dataset.tab];
+    if (line) b.setAttribute('aria-controls', line.id);
+    b.addEventListener('click', () => select(b.dataset.tab));
+  });
   select('whatsapp');
 
   // Re-measure once fonts settle (button widths shift) and on resize.
@@ -577,17 +586,209 @@ function initContact() {
   addEventListener('resize', recompute);
 }
 
-/* ═══════ INIT ═══════ */
-function injectGrain() { const g = document.createElement('div'); g.className = 'grain'; document.body.appendChild(g); }
+/* ═══════ WORK LIST (accordion rows, cursor-follow preview) ═══════ */
+function initWorkList() {
+  const list = document.querySelector('.wlist');
+  if (!list) return;
+  const preview = list.querySelector('.wpreview');
+  const img = preview && preview.querySelector('img');
+  const items = list.querySelectorAll('.witem');
+  if (!preview || !img || TOUCH) return;
 
-function injectAmbientGlow() {
-  const glow = document.createElement('div');
-  glow.className = 'ambient-glow';
-  glow.setAttribute('aria-hidden', 'true');
-  glow.innerHTML = '<div class="ambient-glow__orb ambient-glow__orb--1"></div><div class="ambient-glow__orb ambient-glow__orb--2"></div><div class="ambient-glow__orb ambient-glow__orb--3"></div>';
-  document.body.prepend(glow);
+  let mx = 0, my = 0, x = 0, y = 0, active = false;
+  addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+  if (HAS_GSAP) {
+    gsap.ticker.add(() => {
+      x += (mx - x) * 0.16; y += (my - y) * 0.16;
+      preview.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) scale(${active ? 1 : 0.92})`;
+    });
+  }
+
+  items.forEach((item) => {
+    item.addEventListener('mouseenter', () => {
+      active = true;
+      img.src = item.dataset.img || '';
+      if (HAS_GSAP) gsap.to(preview, { autoAlpha: 1, duration: 0.45, ease: 'power3.out' });
+      else preview.style.opacity = 1;
+    });
+    item.addEventListener('mouseleave', () => {
+      active = false;
+      if (HAS_GSAP) gsap.to(preview, { autoAlpha: 0, duration: 0.35, ease: 'power2.in' });
+      else preview.style.opacity = 0;
+    });
+  });
 }
 
+/* ═══════ 3D flip-in rows (services, process, regional cards, contact details) ═══════ */
+// Rows hinge down from their top edge like cards being dealt onto the table.
+function initFlip3D() {
+  if (!HAS_GSAP || !window.ScrollTrigger || REDUCED) return;
+  const groups = [
+    ['.svcd-list', '.svcd', { rotationX: -75, transformOrigin: '50% 0%' }],
+    ['.proc', '.proc__row', { rotationX: -60, transformOrigin: '50% 0%' }],
+    ['.regd__grid', '.regd__card', { rotationY: 35, z: -80, transformOrigin: '0% 50%' }],
+    ['.cdetails', '.cblock', { rotationX: -50, transformOrigin: '50% 0%' }],
+    ['.brief__aside', '.cblock', { rotationX: -50, transformOrigin: '50% 0%' }],
+    ['.svcgrid__grid', '.scard', { rotationX: -55, z: -60, transformOrigin: '50% 0%' }],
+    ['.cards3', '.card', { rotationY: 32, z: -90, transformOrigin: '0% 50%' }],
+    ['.faq__list', '.faq__item', { rotationX: -60, transformOrigin: '50% 0%' }],
+  ];
+  groups.forEach(([parentSel, itemSel, from]) => {
+    document.querySelectorAll(parentSel).forEach((parent) => {
+      const items = parent.querySelectorAll(itemSel);
+      if (!items.length) return;
+      gsap.fromTo(items, { ...from, autoAlpha: 0, transformPerspective: 1100 },
+        { rotationX: 0, rotationY: 0, z: 0, autoAlpha: 1, duration: 1.2, ease: 'expo.out', stagger: 0.09,
+          scrollTrigger: { trigger: parent, start: 'top 82%', once: true } });
+    });
+  });
+  // detail-row stages swing toward the reader, alternating sides
+  document.querySelectorAll('.sdetail__media').forEach((el) => {
+    const flip = el.closest('.sdetail--flip');
+    gsap.fromTo(el, { rotationY: flip ? -24 : 24, rotationX: 8, z: -140, autoAlpha: 0, transformPerspective: 1400, transformOrigin: flip ? '100% 50%' : '0% 50%' },
+      { rotationY: 0, rotationX: 0, z: 0, autoAlpha: 1, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 85%', once: true } });
+  });
+  // case-study hero frame + signal cells rise out of depth
+  document.querySelectorAll('.cs-hero__frame').forEach((el) => {
+    gsap.fromTo(el, { rotationX: 24, z: -160, autoAlpha: 0, transformPerspective: 1600, transformOrigin: '50% 100%' },
+      { rotationX: 0, z: 0, autoAlpha: 1, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
+  });
+}
+
+/* ═══════ 3D pointer tilt + glare on cards ═══════ */
+function initTilt() {
+  if (TOUCH || !HAS_GSAP || REDUCED) return;
+  document.querySelectorAll('.proj__media, .regd__card, .cs-hero__frame, .card, .sdetail__media').forEach((el) => {
+    const max = el.classList.contains('cs-hero__frame') ? 4 : el.classList.contains('sdetail__media') ? 6 : 9;
+    el.classList.add('tilt');
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      el.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
+      el.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+      gsap.to(el, { rotationY: (px - 0.5) * max * 2, rotationX: (0.5 - py) * max * 2, z: 24,
+        transformPerspective: 1000, duration: 0.7, ease: 'power3.out', overwrite: 'auto' });
+    });
+    el.addEventListener('mouseleave', () => gsap.to(el, { rotationX: 0, rotationY: 0, z: 0, duration: 1.1, ease: 'elastic.out(1, 0.5)', overwrite: 'auto' }));
+  });
+}
+
+/* ═══════ OFFLINE-FIRST STORY: pinned scroll drives the 3D sync scene ═══════ */
+function initSync() {
+  const sec = document.querySelector('.sync');
+  if (!sec) return;
+  const canvas = sec.querySelector('canvas');
+  const steps = sec.querySelectorAll('.sync__step');
+  const bar = sec.querySelector('.sync__bar');
+  const set = (p) => {
+    if (canvas) canvas.dataset.progress = p.toFixed(4);
+    const idx = p < 0.34 ? 0 : p < 0.67 ? 1 : 2;
+    steps.forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    if (bar) bar.style.setProperty('--p', p.toFixed(4));
+  };
+  if (!HAS_GSAP || !window.ScrollTrigger || REDUCED) {
+    // no pin: show all three steps and a single still frame mid-story
+    sec.classList.add('is-static');
+    set(0.5);
+    document.dispatchEvent(new Event('ov:progress'));
+    return;
+  }
+  set(0);
+  ScrollTrigger.create({
+    trigger: sec, start: 'top top', end: '+=220%', pin: sec.querySelector('.sync__pin'), anticipatePin: 1,
+    onUpdate: (self) => set(self.progress),
+  });
+}
+
+/* ═══════ HERO status card: a till going offline, queueing, then syncing ═══════ */
+function initHeroStatus() {
+  const card = document.querySelector('.hero__status');
+  if (!card) return;
+  const label = card.querySelector('[data-status-label]');
+  const queue = card.querySelector('[data-status-queue]');
+  const bar = card.querySelector('.hero__status-bar i');
+  const L = card.dataset;
+  let tick = 0, queued = 0;
+  const render = (state) => {
+    card.classList.toggle('is-offline', state === 'offline');
+    card.classList.toggle('is-syncing', state === 'syncing');
+    label.textContent = L[state];
+    queue.textContent = queued + ' ' + L.queued;
+    bar.style.width = (state === 'online' ? 100 : state === 'offline' ? Math.min(100, queued * 9) : Math.max(4, 100 - queued * 9)) + '%';
+  };
+  render('online');
+  if (REDUCED) return;
+  setInterval(() => {
+    tick = (tick + 1) % 13;
+    let state;
+    if (tick < 4) { state = 'online'; queued = 0; }
+    else if (tick < 9) { state = 'offline'; queued += 1 + (tick % 2); }
+    else { state = 'syncing'; queued = Math.max(0, queued - 3); }
+    render(state);
+  }, 1100);
+}
+
+/* ═══════ FAQ accordion ═══════ */
+function initFaq() {
+  const root = document.querySelector('.faq');
+  if (!root) return;
+  root.classList.add('js-faq');
+  root.querySelectorAll('.faq__item').forEach((item) => {
+    const q = item.querySelector('.faq__q'), a = item.querySelector('.faq__a');
+    q.addEventListener('click', () => {
+      const open = !item.classList.contains('is-open');
+      item.classList.toggle('is-open', open);
+      q.setAttribute('aria-expanded', String(open));
+      a.style.height = open ? a.scrollHeight + 'px' : '0px';
+    });
+  });
+  addEventListener('resize', () => root.querySelectorAll('.faq__item.is-open .faq__a').forEach((a) => { a.style.height = a.scrollHeight + 'px'; }));
+}
+
+/* ═══════ PROJECT BRIEF: compose a WhatsApp / email message (nothing is stored) ═══════ */
+function initBrief() {
+  const form = document.getElementById('brief');
+  if (!form) return;
+  const err = form.querySelector('.brief__error');
+  const name = form.querySelector('[name="name"]');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const who = (f.get('name') || '').trim();
+    if (!who) {
+      name.setAttribute('aria-invalid', 'true');
+      if (err) err.hidden = false;
+      name.focus();
+      return;
+    }
+    name.removeAttribute('aria-invalid');
+    if (err) err.hidden = true;
+    const biz = (f.get('business') || '').trim();
+    const needs = f.getAll('need');
+    const msg = (f.get('message') || '').trim();
+    const text = ['Hello OmniVora, I\'d like to discuss a project.', '',
+      'Name: ' + who, biz ? 'Business: ' + biz : null, 'Interested in: ' + (needs.length ? needs.join(', ') : 'Not sure yet'),
+      msg ? '\n' + msg : null].filter((line) => line !== null).join('\n');
+    const via = e.submitter && e.submitter.value;
+    if (via === 'email') {
+      location.href = 'mailto:hello@omnivora.dev?subject=' + encodeURIComponent('Project inquiry — ' + (biz || who)) + '&body=' + encodeURIComponent(text);
+    } else {
+      window.open('https://wa.me/96170374702?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    }
+  });
+}
+
+/* ═══════ hovering a card spins its 3D model faster (scene3d reads data-hover) ═══════ */
+function initMiniHover() {
+  document.querySelectorAll('.scard, .sdetail').forEach((el) => {
+    const c = el.querySelector('canvas[data-3d]');
+    if (!c) return;
+    el.addEventListener('mouseenter', () => { c.dataset.hover = '1'; });
+    el.addEventListener('mouseleave', () => { c.dataset.hover = '0'; });
+  });
+}
+
+/* ═══════ INIT ═══════ */
 function initSpotlight() {
   if (TOUCH) return;
   document.querySelectorAll('.proj, .sig__item, .regd__card, .svcd').forEach((card) => {
@@ -602,22 +803,25 @@ function initSpotlight() {
 }
 
 addEventListener('DOMContentLoaded', () => {
-  injectAmbientGlow();
-  injectGrain();
   initLenis();
   initTransitions();
   initNav();
   initActiveNav();
-  initCursor();
   initMagnetic();
   initContact();
   initSpotlight();
+  initWorkList();
+  initTilt();
+  initHeroStatus();
+  initFaq();
+  initBrief();
+  initMiniHover();
 
   if (HAS_GSAP) maskHero();
-  initPreloader(); // home only; sets heroOwnedByPreloader + locks scroll before reveals build
+  initLoader(); // home only; sets heroOwnedByPreloader + locks scroll before reveals build
 
   const start = () => {
-    heroReveal(); initHeroVideo(); initHeadings(); initSignal(); initMarquee(); initWork(); initWhy(); initApproach(); initGeneric(); initTech(); initSkew();
+    heroReveal(); initHeroVideo(); initHeadings(); initSignal(); initMarquee(); initWork(); initSync(); initWhy(); initApproach(); initGeneric(); initTech(); initFlip3D(); initHeroScroll(); initSkew();
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   };
 

@@ -3,111 +3,130 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OmniVora — Resilient Software Engineering · Beirut</title>
-  <meta name="description" content="OmniVora engineers resilient POS systems, mobile & web applications, and operational dashboards for businesses across Lebanon. Built for offline reliability, dual currency, and native Arabic workflows." />
-
-  <!-- Favicon -->
+  <title>OmniVora — Software Engineering Studio · Beirut</title>
+  <meta name="description" content="OmniVora engineers offline-first POS systems, mobile &amp; web applications and operational dashboards for businesses in Lebanon — built for power cuts, dual currency and native Arabic workflows." />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <meta name="theme-color" content="#08090c" />
+  <link rel="canonical" href="https://omnivora.dev/" />
+  <meta name="theme-color" content="#1c1c1c" />
 
-  <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="OmniVora — Resilient Software Engineering · Beirut" />
-  <meta property="og:description" content="Mission-critical POS systems, custom platforms, and operational dashboards built for real-world resilience." />
-  <meta property="og:image" content="assets/og-preview.jpg" />
+  <meta property="og:url" content="https://omnivora.dev/" />
+  <meta property="og:site_name" content="OmniVora" />
+  <meta property="og:title" content="OmniVora — Software Engineering Studio · Beirut" />
+  <meta property="og:description" content="Offline-first POS systems, mobile &amp; web apps and operational dashboards — engineered in Beirut for real-world resilience." />
+  <meta property="og:image" content="https://omnivora.dev/assets/og-preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="OmniVora — Resilient Software Engineering · Beirut" />
-  <meta name="twitter:description" content="Mission-critical POS systems, custom platforms, and operational dashboards built for real-world resilience." />
-  <meta name="twitter:image" content="assets/og-preview.jpg" />
+  <meta name="twitter:title" content="OmniVora — Software Engineering Studio · Beirut" />
+  <meta name="twitter:description" content="Offline-first POS systems, mobile &amp; web apps and operational dashboards — engineered in Beirut for real-world resilience." />
+  <meta name="twitter:image" content="https://omnivora.dev/assets/og-preview.jpg" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ProfessionalService","name":"OmniVora","url":"https://omnivora.dev/","logo":"https://omnivora.dev/assets/favicon.svg","image":"https://omnivora.dev/assets/og-preview.jpg","description":"Software engineering studio in Beirut building offline-first POS systems, mobile and web applications, and operational dashboards.","email":"hello@omnivora.dev","telephone":"+961 70 374 702","address":{"@type":"PostalAddress","addressLocality":"Beirut","addressCountry":"LB"},"areaServed":"LB","knowsLanguage":["en","ar"]}
+  </script>
 
-  <!-- Fonts: Fraunces (display, opsz axis) + Archivo (UI/body) + Arabic fallback -->
+  <!-- Fonts: Fraunces (display) + Inter (UI/body) + IBM Plex Sans Arabic (Arabic names)
+       + Archivo Expanded ExtraBold, subset to the logotype letters (OMNIVORA / OMVI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Archivo:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="css/home.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@300;400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800&text=OMNIVRA&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/home.css?v=99a92620" />
 </head>
 <body>
-  <!-- PRELOADER (home intro — owns the load sequence, then hands off to the hero) -->
-  <div class="preloader" id="preloader" aria-hidden="true">
-    <div class="preloader-inner">
-      <span class="preloader-mark"><span class="preloader-mark__i">OMNIVORA</span></span>
-      <span class="preloader-tag">Software Engineering Studio — Beirut</span>
-      <div class="preloader-bar-track"><div class="preloader-bar-fill"></div></div>
-      <div class="preloader-count"><span class="preloader-digit">000</span><span class="preloader-pct">%</span></div>
-    </div>
-  </div>
+  <a class="skip-link" href="#top">Skip to content</a>
 
-  <!-- CURSOR -->
-  <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor__ring" id="cursorRing"></div></div>
-
-  <!-- NAV -->
   <header class="nav" id="nav">
-    <a href="#top" class="nav__brand">OMNIVORA<sup>®</sup></a>
+    <a href="#top" class="nav__brand" aria-label="OmniVora home">OMNIVORA<sup>•</sup></a>
     <nav class="nav__links" aria-label="Primary">
       <a href="work.html" class="nav__link">Work</a>
       <a href="services.html" class="nav__link">Services</a>
+      <a href="industries.html" class="nav__link">Industries</a>
       <a href="studio.html" class="nav__link">Studio</a>
       <a href="contact.html" class="nav__link">Contact</a>
     </nav>
-    <button class="nav__menu" id="menuBtn" aria-label="Menu">Menu</button>
+    <div class="nav__end">
+      <a href="contact.html" class="nav__cta">Start a project <i>→</i></a>
+      <button class="nav__menu" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="overlay">Menu</button>
+    </div>
   </header>
 
-  <!-- OVERLAY MENU (not a generic hamburger) -->
   <nav class="overlay" id="overlay" aria-label="Menu">
     <a href="index.html">Home</a>
     <a href="work.html">Work</a>
     <a href="services.html">Services</a>
+    <a href="industries.html">Industries</a>
     <a href="studio.html">Studio</a>
     <a href="contact.html">Contact</a>
     <div class="overlay__meta">Beirut, Lebanon — +961 70 374 702</div>
   </nav>
 
   <main id="top">
-    <!-- ══════════ HERO ══════════ -->
-    <section class="hero" id="hero">
-      <!-- Scroll-scrubbed video (self-activates only once a real file loads; until
-           then the hero stays light/text-forward with no poster flash). Drop a file
-           at assets/hero-pagoda.mp4 (and optionally .webm) to turn it on. -->
-      <video class="hero__video" id="heroVideo" muted playsinline preload="auto" poster="assets/hero-fallback.png" aria-hidden="true">
-        <source src="assets/hero-pagoda.webm" type="video/webm" />
-        <source src="assets/hero-pagoda.mp4" type="video/mp4" />
-      </video>
-      <div class="hero__scrim" aria-hidden="true"></div>
-      <div class="hero__inner">
-        <span class="hero__eyebrow"><i></i>Boutique Software Engineering Studio — Beirut, Lebanon</span>
-        <h1 class="hero__title">
-          <span class="w">Software</span> <span class="w">that</span> <span class="w"><em>survives</em></span> <span class="w accent">Beirut.</span>
-        </h1>
-        <p class="hero__sub">High-performance POS systems, mobile applications, and operational dashboards. Engineered to maintain continuous operations through power interruptions, network outages, and peak transaction volumes. Arabic-native by design.</p>
+    <!-- ══════════ HERO (also the loader: the point-cloud OMVI prints while the page loads) ══════════ -->
+    <section class="hero hero--brand" id="hero">
+      <div class="hero__stage" aria-hidden="true">
+        <canvas class="hero__3d" data-3d="eco" data-color="--hero-ink" data-glow="--hero-glow-3d" data-scale="0.9" data-wait></canvas>
       </div>
+      <canvas class="hero__omvi" data-3d="omvi" data-color="--hero-ink" data-glow="--hero-glow-3d" aria-hidden="true"></canvas>
+      <div class="omvi-wrap">
+        <h1 class="omvi">
+          <span class="sr-only">OmniVora — software engineering studio in Beirut</span>
+          <span class="omvi__inner" aria-hidden="true"><span class="omvi__word">OMVI<span class="omvi__dot"></span></span></span>
+        </h1>
+      </div>
+      <div class="hero__frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="hero__scroll" aria-hidden="true"></div>
+      <div class="loader" aria-hidden="true">
+        <div class="loader__id">
+          <span class="loader__brand">OMNIVORA<sup>•</sup></span>
+          <span class="loader__tag">Software engineering studio — Beirut</span>
+        </div>
+        <div class="loader__count"><span class="loader__num">000</span><span class="loader__pct">%</span></div>
+        <div class="loader__bar"><i></i></div>
+      </div>
+    </section>
 
-      <div class="hero__foot">
-        <span class="hero__foot-item"><b>03</b> production systems deployed</span>
-        <span class="hero__foot-item">Beirut · <b>Booking for 2026</b></span>
-        <span class="hero__cue">Scroll <i></i></span>
+    <!-- ══════════ INTRO ══════════ -->
+    <section class="intro" id="intro">
+      <div class="intro__grid">
+        <div class="intro__copy">
+          <span class="hero__eyebrow" data-anim="rise"><i></i>Accepting new projects — Beirut, Lebanon</span>
+          <h2 class="intro__title">Software that keeps business <em class="accent">moving.</em></h2>
+          <p class="hero__sub" data-anim="rise">We engineer POS systems, mobile apps and operational dashboards that keep trading through power cuts and peak-hour rushes — in Arabic and English, in dollars and lira.</p>
+          <div class="hero__cta" data-anim="rise">
+            <a href="contact.html" class="btn btn--primary">Start a project <i>→</i></a>
+            <a href="work.html" class="btn btn--ghost">See our work</a>
+          </div>
+          <div class="hero__proof" data-anim="rise">
+            <span>In production at</span>
+            <ul>
+              <li>VoraPOS</li>
+              <li>Zaytouna Park</li>
+              <li>Sils <span class="ar" dir="rtl">سلس</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="intro__visual" data-anim="rise">
+          <canvas data-3d="globe" data-home="33.89,35.5" data-scale="1.02" aria-hidden="true"></canvas>
+          <div class="hero__status" data-online="Online · in sync" data-offline="Offline · still trading" data-syncing="Back online · syncing" data-queued="queued" aria-hidden="true">
+            <div class="hero__status-head"><span>Till 02 · Main branch</span><span class="hero__status-live">Live</span></div>
+            <div class="hero__status-state"><i></i><span data-status-label>Online · in sync</span></div>
+            <div class="hero__status-meta"><span>Sales queue</span><span data-status-queue>0 queued</span></div>
+            <div class="hero__status-bar"><i></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero__metrics">
+        <div data-anim="rise"><b><span data-count="3" data-pad="2">03</span></b><span>Systems in production</span></div>
+        <div data-anim="rise"><b>Offline-first</b><span>Sales never wait on Wi-Fi</span></div>
+        <div data-anim="rise"><b>USD / LBP</b><span>Dual-currency native</span></div>
+        <div data-anim="rise"><b>AR / EN</b><span>Right-to-left by design</span></div>
       </div>
     </section>
 
     <!-- ══════════ STATEMENT ══════════ -->
     <section class="statement">
-      <p class="statement__line">When connectivity drops, standard systems halt. <em class="accent">Ours keep trading.</em></p>
-    </section>
-
-    <!-- ══════════ SIGNAL STRIP ══════════ -->
-    <section class="signal">
-      <div class="sig__item">
-        <div class="sig__num">75+ Schemas</div>
-        <div class="sig__label">Optimized relational tables running in active production</div>
-      </div>
-      <div class="sig__item">
-        <div class="sig__num">100% Arabic</div>
-        <div class="sig__label">Engineered for RTL workflows from day one, never a translated afterthought</div>
-      </div>
-      <div class="sig__item">
-        <div class="sig__num">0 Downtime</div>
-        <div class="sig__label">Offline-first transaction queueing through power cuts and network drops</div>
-      </div>
+      <p class="statement__line">When the connection drops, most systems stop. <em class="accent">Ours keep trading.</em></p>
     </section>
 
     <!-- ══════════ MARQUEE ══════════ -->
@@ -125,119 +144,166 @@
         <span class="work__count" data-anim="rise">03 — in active production</span>
       </div>
 
-      <!-- 01 · image left -->
       <article class="proj proj--left">
-        <div class="proj__media">
-          <div class="proj__media-inner">
-            <div class="proj__ph">
+        <a class="proj__media" href="case-vorapos.html" tabindex="-1" aria-hidden="true">
+          <span class="proj__media-inner">
+            <span class="proj__ph">
               <span class="proj__tag-media">VoraPOS — Terminal</span>
-              <img src="assets/work-vorapos.jpg" alt="VoraPOS dual-screen terminal inventory and sales dashboard" />
-              <svg class="proj__mock" viewBox="0 0 400 300" fill="none" aria-hidden="true">
-                <rect x="10" y="10" width="380" height="280" rx="4" stroke stroke-width="1.4"/>
-                <rect x="10" y="10" width="380" height="46" class="fillsoft"/>
-                <line x1="30" y1="80" x2="230" y2="80" stroke stroke-width="1.4"/>
-                <line x1="30" y1="110" x2="200" y2="110" stroke stroke-width="1.4"/>
-                <line x1="30" y1="140" x2="215" y2="140" stroke stroke-width="1.4"/>
-                <rect x="270" y="80" width="100" height="120" class="fillsoft"/>
-                <rect x="270" y="215" width="100" height="45" stroke stroke-width="1.4"/>
-                <line x1="30" y1="230" x2="120" y2="230" stroke stroke-width="1.4"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+              <img src="assets/work-vorapos.jpg" alt="VoraPOS dual-screen terminal inventory and sales dashboard" loading="lazy" />
+            </span>
+          </span>
+        </a>
         <div class="proj__content">
           <div class="proj__name"><span>VoraPOS</span><span class="idx">01</span></div>
           <h3 class="proj__title">Engineered for counter velocity</h3>
-          <p class="proj__desc">A high-speed desktop POS built for heavy-inventory retail. Features sub-second parts lookup, local transactional integrity, and instant barcode processing.</p>
+          <p class="proj__desc">A high-speed desktop POS built for heavy-inventory retail: sub-second parts lookup, local transactional integrity and instant barcode processing.</p>
           <p class="proj__tags">Intelligent Parts Indexing <span>—</span> Offline-first <span>—</span> SQL Server <span>—</span> Desktop WPF</p>
-          <a href="work.html" class="proj__link">view case study <i>→</i></a>
+          <a href="case-vorapos.html" class="proj__link">Read the case study <i>→</i></a>
         </div>
       </article>
 
-      <!-- 02 · image right -->
       <article class="proj proj--right">
-        <div class="proj__media">
-          <div class="proj__media-inner">
-            <div class="proj__ph">
+        <a class="proj__media" href="case-zaytouna.html" tabindex="-1" aria-hidden="true">
+          <span class="proj__media-inner">
+            <span class="proj__ph">
               <span class="proj__tag-media">Zaytouna — Hospitality Terminal</span>
-              <img src="assets/work-zaytouna.jpg" alt="Zaytouna Park touch POS ordering terminal with Lebanese restaurant menu" />
-              <svg class="proj__mock" viewBox="0 0 400 300" fill="none" aria-hidden="true">
-                <rect x="10" y="10" width="180" height="130" stroke stroke-width="1.4"/>
-                <rect x="210" y="10" width="180" height="130" stroke stroke-width="1.4"/>
-                <rect x="10" y="160" width="180" height="130" stroke stroke-width="1.4"/>
-                <rect x="210" y="160" width="180" height="130" class="fillsoft"/>
-                <line x1="26" y1="34" x2="120" y2="34" stroke stroke-width="1.4"/>
-                <line x1="226" y1="34" x2="330" y2="34" stroke stroke-width="1.4"/>
-                <line x1="26" y1="184" x2="120" y2="184" stroke stroke-width="1.4"/>
-                <line x1="226" y1="184" x2="330" y2="184" stroke stroke-width="1.4"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+              <img src="assets/work-zaytouna.jpg" alt="Zaytouna Park touch POS ordering terminal with Lebanese restaurant menu" loading="lazy" />
+            </span>
+          </span>
+        </a>
         <div class="proj__content">
           <div class="proj__name"><span>Zaytouna Park</span><span class="idx">02</span></div>
           <h3 class="proj__title">Real-time venue &amp; kitchen orchestration</h3>
-          <p class="proj__desc">A synchronized hospitality POS connecting table orders, cashier terminals, and kitchen displays with sub-second real-time state synchronization.</p>
+          <p class="proj__desc">A synchronized hospitality POS connecting table orders, cashier terminals and kitchen displays with sub-second real-time state.</p>
           <p class="proj__tags">Flutter <span>—</span> Supabase <span>—</span> Realtime Sync <span>—</span> Kitchen Display</p>
-          <a href="work.html" class="proj__link">view case study <i>→</i></a>
+          <a href="case-zaytouna.html" class="proj__link">Read the case study <i>→</i></a>
         </div>
       </article>
 
-      <!-- 03 · image left -->
       <article class="proj proj--left">
-        <div class="proj__media">
-          <div class="proj__media-inner">
-            <div class="proj__ph">
+        <a class="proj__media" href="case-sils.html" tabindex="-1" aria-hidden="true">
+          <span class="proj__media-inner">
+            <span class="proj__ph">
               <span class="proj__tag-media" dir="rtl">سلس — Multi-tenant</span>
-              <img src="assets/work-sils.jpg" alt="Sils multi-tenant cloud POS interface" />
-              <svg class="proj__mock" viewBox="0 0 400 300" fill="none" aria-hidden="true">
-                <rect x="40" y="40" width="320" height="220" stroke stroke-width="1.4"/>
-                <rect x="66" y="66" width="268" height="168" class="fillsoft"/>
-                <rect x="92" y="92" width="216" height="116" stroke stroke-width="1.4"/>
-                <line x1="200" y1="40" x2="200" y2="0" stroke stroke-width="1.4"/>
-                <line x1="200" y1="260" x2="200" y2="300" stroke stroke-width="1.4"/>
-                <line x1="40" y1="150" x2="0" y2="150" stroke stroke-width="1.4"/>
-                <line x1="360" y1="150" x2="400" y2="150" stroke stroke-width="1.4"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+              <img src="assets/work-sils.jpg" alt="Sils multi-tenant cloud POS interface" loading="lazy" />
+            </span>
+          </span>
+        </a>
         <div class="proj__content">
           <div class="proj__name"><span>Sils <span class="ar" dir="rtl">سلس</span></span><span class="idx">03</span></div>
           <h3 class="proj__title">Scalable multi-tenant retail SaaS</h3>
-          <p class="proj__desc">A cloud-native POS platform delivering isolated tenant environments, live analytics, and seamless regional compliance across Lebanon.</p>
+          <p class="proj__desc">A cloud-native POS platform delivering isolated tenant environments, live analytics and Arabic-first workflows for retailers across Lebanon.</p>
           <p class="proj__tags">Multi-tenant <span>—</span> Flutter <span>—</span> Supabase <span>—</span> Arabic-first</p>
-          <a href="work.html" class="proj__link">view case study <i>→</i></a>
+          <a href="case-sils.html" class="proj__link">Read the case study <i>→</i></a>
         </div>
       </article>
     </section>
 
+    <!-- ══════════ OFFLINE-FIRST STORY (pinned 3D) ══════════ -->
+    <section class="sync" id="offline">
+      <div class="sync__pin">
+        <div class="sync__copy">
+          <p class="sync__kicker">Offline-first, by design</p>
+          <h2 class="sync__title">What happens when the <em>internet drops?</em></h2>
+          <div class="sync__steps">
+          <div class="sync__step is-active">
+            <span class="sync__n">01 — Online</span>
+            <h3>Every sale syncs live</h3>
+            <p>Terminals stream transactions to the cloud the moment they happen, so stock and revenue are always current — at every branch.</p>
+          </div>
+          <div class="sync__step">
+            <span class="sync__n">02 — Connection lost</span>
+            <h3>The till keeps trading</h3>
+            <p>Sales, returns and stock moves commit locally and queue on the device. The cashier never sees a spinner; the customer never waits.</p>
+          </div>
+          <div class="sync__step">
+            <span class="sync__n">03 — Back online</span>
+            <h3>The queue flushes itself</h3>
+            <p>When the line returns, queued transactions sync in order and the books reconcile automatically — no double entries, no paper logs.</p>
+          </div>
+          </div>
+          <div class="sync__bar" aria-hidden="true"><i></i></div>
+        </div>
+        <canvas class="sync__3d" data-3d="sync" data-progress="0" aria-hidden="true"></canvas>
+      </div>
+    </section>
+
+    <!-- ══════════ SERVICES ══════════ -->
+    <section class="svcgrid" id="services">
+      <div class="sec-head">
+        <div>
+          <p class="sec-head__kicker" data-anim="rise">Capabilities</p>
+          <h2 class="sec-head__title">What we <em>build</em></h2>
+        </div>
+        <a class="sec-head__link" href="services.html">All services →</a>
+      </div>
+      <div class="svcgrid__grid">
+        <a class="scard" href="services.html#pos">
+          <canvas class="scard__3d" data-3d="pos" data-color="#262626" data-scale="1.15" aria-hidden="true"></canvas>
+          <span class="scard__n">01</span>
+          <h3 class="scard__t">Point-of-sale systems</h3>
+          <p class="scard__d">Offline-resilient tills, back-office and dual-currency reconciliation for retail and hospitality.</p>
+          <span class="scard__more">Explore <i>→</i></span>
+        </a>
+        <a class="scard" href="services.html#apps">
+          <canvas class="scard__3d" data-3d="phone" data-color="#262626" data-scale="1.15" aria-hidden="true"></canvas>
+          <span class="scard__n">02</span>
+          <h3 class="scard__t">Mobile &amp; web apps</h3>
+          <p class="scard__d">Flutter and web products that stay fast on patchy networks and feel native in Arabic and English.</p>
+          <span class="scard__more">Explore <i>→</i></span>
+        </a>
+        <a class="scard" href="services.html#dashboards">
+          <canvas class="scard__3d" data-3d="bars" data-color="#262626" data-scale="1.15" aria-hidden="true"></canvas>
+          <span class="scard__n">03</span>
+          <h3 class="scard__t">Operational dashboards</h3>
+          <p class="scard__d">Live revenue, stock and staff metrics across every branch — the numbers you need, when you need them.</p>
+          <span class="scard__more">Explore <i>→</i></span>
+        </a>
+        <a class="scard" href="services.html#automation">
+          <canvas class="scard__3d" data-3d="neural" data-color="#262626" data-scale="1.15" aria-hidden="true"></canvas>
+          <span class="scard__n">04</span>
+          <h3 class="scard__t">AI &amp; automation</h3>
+          <p class="scard__d">Catalogue indexing, smarter search and automated pipelines that take the busywork out of daily operations.</p>
+          <span class="scard__more">Explore <i>→</i></span>
+        </a>
+        <a class="scard" href="services.html#payments">
+          <canvas class="scard__3d" data-3d="rails" data-color="#262626" data-scale="1.15" aria-hidden="true"></canvas>
+          <span class="scard__n">05</span>
+          <h3 class="scard__t">Payments &amp; integrations</h3>
+          <p class="scard__d">Whish Pay, regional gateways, fiscal hardware, scanners, printers and the ERPs you already run.</p>
+          <span class="scard__more">Explore <i>→</i></span>
+        </a>
+        <a class="scard" href="services.html#saas">
+          <canvas class="scard__3d" data-3d="stack" data-color="#262626" data-scale="1.15" aria-hidden="true"></canvas>
+          <span class="scard__n">06</span>
+          <h3 class="scard__t">Multi-tenant SaaS</h3>
+          <p class="scard__d">Cloud platforms that serve many businesses from one product, each with isolated data and its own configuration.</p>
+          <span class="scard__more">Explore <i>→</i></span>
+        </a>
+      </div>
+    </section>
+
     <!-- ══════════ WHY CLIENTS CALL (horizontal pin) ══════════ -->
     <section class="why" id="why">
-      <span class="why__label">Operational Challenges We Solve</span>
+      <span class="why__label">Problems we solve</span>
       <div class="why__track">
-        <div class="hpanel"><p class="hpanel__line">Power fluctuations and network drops force your staff back to <b>manual paper logs</b></p></div>
-        <div class="hpanel"><p class="hpanel__line">WhatsApp and delivery orders bypass your system and create <b>untracked revenue leaks</b></p></div>
-        <div class="hpanel"><p class="hpanel__line">Your Arabic interface is a broken translation rather than a <b>native workflow</b></p></div>
-        <div class="hpanel"><p class="hpanel__line">Previous vendors delivered brittle code and offered <b>zero long-term accountability</b></p></div>
+        <div class="hpanel"><p class="hpanel__line">Power cuts and network drops send your staff back to <b>paper logs</b></p></div>
+        <div class="hpanel"><p class="hpanel__line">WhatsApp and delivery orders bypass the till and become <b>untracked revenue</b></p></div>
+        <div class="hpanel"><p class="hpanel__line">Your Arabic interface is a broken translation, not a <b>native workflow</b></p></div>
+        <div class="hpanel"><p class="hpanel__line">Your last vendor shipped brittle code and offered <b>zero accountability</b></p></div>
       </div>
     </section>
 
     <!-- ══════════ APPROACH ══════════ -->
     <section class="approach">
-      <span class="approach__kicker" data-anim="rise">Our Methodology</span>
-      <p class="approach__copy">We embed directly within your operational workflow to understand how cash, inventory, and customer orders actually move. Then we engineer systems built for reality: <em>offline-first</em> for uninterrupted reliability, <em>omnichannel-ready</em> to capture every WhatsApp and counter sale, and <em>Arabic-native</em> so staff operate with speed and precision.</p>
-    </section>
-
-    <!-- ══════════ TECH STRIP ══════════ -->
-    <section class="tech">
-      <p class="tech__line">FLUTTER · C# / WPF · SUPABASE · SQL SERVER · THREE.JS</p>
+      <span class="approach__kicker" data-anim="rise">How we work</span>
+      <p class="approach__copy">We start on your counter, not in a meeting room — learning how cash, stock and orders actually move. Then we engineer for that reality: <em>offline-first</em> so nothing stops, <em>omnichannel</em> so every WhatsApp and counter sale is captured, and <em>Arabic-native</em> so your team works at full speed.</p>
     </section>
 
     <!-- ══════════ CONTACT ══════════ -->
     <section class="contact" id="contact">
-      <p class="contact__kicker" data-anim="rise">Initiate a Project</p>
-      <h2 class="contact__title" data-anim="rise">Let's discuss<br /><em>your build.</em></h2>
+      <p class="contact__kicker" data-anim="rise">Start a project</p>
+      <h2 class="contact__title" data-anim="rise">Let's talk about<br /><em>your build.</em></h2>
       <div class="switch" role="tablist" aria-label="Contact method">
         <button data-tab="whatsapp" class="is-active" role="tab">WhatsApp</button>
         <button data-tab="email" role="tab">Email</button>
@@ -250,14 +316,32 @@
   </main>
 
   <footer class="footer">
-    <span class="brand">OMNIVORA</span>
-    <span>Software that survives Beirut</span>
-    <span>© 2026 · 33.8938°N, 35.5018°E</span>
+    <div class="footer__top">
+      <div class="footer__brand">
+        <p class="footer__word">Built to keep business <em>moving.</em></p>
+        <p class="footer__blurb">OmniVora is a software engineering studio in Beirut, building offline-first POS systems, mobile &amp; web applications, and operational dashboards.</p>
+      </div>
+      <nav class="footer__col" aria-label="Footer">
+        <h4>Studio</h4>
+        <a href="work.html">Work</a><a href="services.html">Services</a><a href="industries.html">Industries</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer__col">
+        <h4>Get in touch</h4>
+        <a href="https://wa.me/96170374702" target="_blank" rel="noopener">WhatsApp +961 70 374 702</a>
+        <a href="mailto:hello@omnivora.dev">hello@omnivora.dev</a>
+        <span>Beirut, Lebanon</span>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 OmniVora. All rights reserved.</span>
+      <span>33.8938°N, 35.5018°E</span>
+    </div>
+    <div class="footer__mark" aria-hidden="true"><span>OMNIVORA</span></div>
   </footer>
 
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
-  <script src="vendor/lenis.min.js"></script>
-  <script src="js/home.js"></script>
+  <script src="js/home.js?v=4f1db732"></script>
+  <script src="js/scene3d.js?v=ac3b970f"></script>
 </body>
 </html>

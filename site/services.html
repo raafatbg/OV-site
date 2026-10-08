@@ -3,77 +3,198 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Services &amp; Capabilities — OmniVora</title>
-  <meta name="description" content="OmniVora engineering capabilities: custom POS systems, mobile &amp; web applications, operational dashboards, AI workflow automation, and payment integrations." />
-
-  <!-- Favicon -->
+  <title>Services — POS, Apps, Dashboards &amp; Integrations — OmniVora</title>
+  <meta name="description" content="OmniVora services: offline-first POS systems, mobile &amp; web apps, operational dashboards, AI automation, payment integrations and multi-tenant SaaS platforms." />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <meta name="theme-color" content="#08090c" />
+  <link rel="canonical" href="https://omnivora.dev/services.html" />
+  <meta name="theme-color" content="#1c1c1c" />
 
-  <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Services &amp; Capabilities — OmniVora" />
-  <meta property="og:description" content="End-to-end product engineering: POS systems, mobile &amp; web applications, operational dashboards, and payment integrations." />
-  <meta property="og:image" content="assets/og-preview.jpg" />
+  <meta property="og:url" content="https://omnivora.dev/services.html" />
+  <meta property="og:site_name" content="OmniVora" />
+  <meta property="og:title" content="Services — POS, Apps, Dashboards &amp; Integrations — OmniVora" />
+  <meta property="og:description" content="OmniVora services: offline-first POS systems, mobile &amp; web apps, operational dashboards, AI automation, payment integrations and multi-tenant SaaS platforms." />
+  <meta property="og:image" content="https://omnivora.dev/assets/og-preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Services &amp; Capabilities — OmniVora" />
-  <meta name="twitter:description" content="End-to-end product engineering: POS systems, mobile &amp; web applications, operational dashboards, and payment integrations." />
-  <meta name="twitter:image" content="assets/og-preview.jpg" />
+  <meta name="twitter:title" content="Services — POS, Apps, Dashboards &amp; Integrations — OmniVora" />
+  <meta name="twitter:description" content="OmniVora services: offline-first POS systems, mobile &amp; web apps, operational dashboards, AI automation, payment integrations and multi-tenant SaaS platforms." />
+  <meta name="twitter:image" content="https://omnivora.dev/assets/og-preview.jpg" />
 
+  <!-- Fonts: Fraunces (display) + Inter (UI/body) + IBM Plex Sans Arabic (Arabic names)
+       + Archivo Expanded ExtraBold, subset to the logotype letters (OMNIVORA / OMVI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Archivo:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/home.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@300;400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800&text=OMNIVRA&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/home.css?v=99a92620" />
 </head>
 <body data-page="services">
-  <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor__ring" id="cursorRing"></div></div>
+  <a class="skip-link" href="#top">Skip to content</a>
 
   <header class="nav" id="nav">
-    <a href="index.html" class="nav__brand">OMNIVORA<sup>®</sup></a>
+    <a href="index.html" class="nav__brand" aria-label="OmniVora home">OMNIVORA<sup>•</sup></a>
     <nav class="nav__links" aria-label="Primary">
       <a href="work.html" class="nav__link">Work</a>
       <a href="services.html" class="nav__link">Services</a>
+      <a href="industries.html" class="nav__link">Industries</a>
       <a href="studio.html" class="nav__link">Studio</a>
       <a href="contact.html" class="nav__link">Contact</a>
     </nav>
-    <button class="nav__menu" id="menuBtn" aria-label="Menu">Menu</button>
+    <div class="nav__end">
+      <a href="contact.html" class="nav__cta">Start a project <i>→</i></a>
+      <button class="nav__menu" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="overlay">Menu</button>
+    </div>
   </header>
+
   <nav class="overlay" id="overlay" aria-label="Menu">
-    <a href="index.html">Home</a><a href="work.html">Work</a><a href="services.html">Services</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="work.html">Work</a>
+    <a href="services.html">Services</a>
+    <a href="industries.html">Industries</a>
+    <a href="studio.html">Studio</a>
+    <a href="contact.html">Contact</a>
     <div class="overlay__meta">Beirut, Lebanon — +961 70 374 702</div>
   </nav>
 
   <main id="top">
     <header class="phd">
-      <p class="phd__index" data-anim="rise">(03) — Capabilities</p>
+      <canvas class="phd__3d" data-3d="geo" data-color="#262626" aria-hidden="true"></canvas>
+      <p class="phd__index" data-anim="rise">(03) — Services</p>
       <h1 class="phd__title" data-anim="rise">What we <em>build</em></h1>
-      <p class="phd__lede" data-anim="rise">Full-lifecycle product engineering — from mission-critical counter terminals to executive intelligence dashboards. Led by senior engineers with complete technical accountability.</p>
+      <p class="phd__lede" data-anim="rise">Full-lifecycle product engineering for businesses that can't afford downtime — from the till on your counter to the dashboard on your phone. Senior engineers, end-to-end accountability.</p>
     </header>
 
-    <section class="svcd-list">
-      <div class="svcd"><span class="svcd__num">01</span><h2 class="svcd__title">Point-of-Sale Systems</h2><p class="svcd__desc">Offline-resilient terminals, back-office administration, and multi-currency reconciliation built for continuous commercial uptime.</p><span class="svcd__arrow">→</span></div>
-      <div class="svcd"><span class="svcd__num">02</span><h2 class="svcd__title">Mobile &amp; Web Applications</h2><p class="svcd__desc">High-performance Flutter and web applications built for speed, offline reliability, and native bilingual fluidity.</p><span class="svcd__arrow">→</span></div>
-      <div class="svcd"><span class="svcd__num">03</span><h2 class="svcd__title">Operational Dashboards</h2><p class="svcd__desc">Real-time analytics for revenue streams, multi-branch inventory, and staff productivity — clear metrics for faster decisions.</p><span class="svcd__arrow">→</span></div>
-      <div class="svcd"><span class="svcd__num">04</span><h2 class="svcd__title">AI &amp; Workflow Automation</h2><p class="svcd__desc">Intelligent agents, catalog indexing, and automated data pipelines designed to eliminate friction in daily operations.</p><span class="svcd__arrow">→</span></div>
-      <div class="svcd"><span class="svcd__num">05</span><h2 class="svcd__title">Payment Rails &amp; Integrations</h2><p class="svcd__desc">Direct integration with Whish Pay, regional payment gateways, fiscal hardware, and third-party ERPs.</p><span class="svcd__arrow">→</span></div>
-      <div class="svcd"><span class="svcd__num">06</span><h2 class="svcd__title">Multi-Tenant SaaS Platforms</h2><p class="svcd__desc">Scalable cloud architectures designed to serve multiple business clients securely with isolated data and custom configurations.</p><span class="svcd__arrow">→</span></div>
+    <section class="sdetail" id="pos">
+      <div class="sdetail__media"><canvas data-3d="pos" data-color="#262626" data-scale="1.35" aria-hidden="true"></canvas></div>
+      <div class="sdetail__body">
+        <span class="sdetail__n">01 — Point-of-sale</span>
+        <h2 class="sdetail__t">POS that <em>never stops trading</em></h2>
+        <p class="sdetail__d">Desktop and touch terminals engineered for counter speed: sub-second search, instant barcode scanning and local transactional integrity — so a power cut or dropped line never freezes the till.</p>
+        <ul class="sdetail__list">
+          <li>Offline-first sales, returns and stock movements</li>
+          <li>USD / LBP pricing, change and end-of-day reconciliation</li>
+          <li>Receipt printers, barcode scanners and cash drawers</li>
+          <li>Back-office for stock, suppliers, users and permissions</li>
+        </ul>
+          <p class="sdetail__tags">C# / WPF — Flutter — SQL Server — Supabase</p>
+          <a class="sdetail__link" href="case-vorapos.html">See VoraPOS <i>→</i></a>
+      </div>
+    </section>
+
+    <section class="sdetail sdetail--flip" id="apps">
+      <div class="sdetail__media"><canvas data-3d="phone" data-color="#262626" data-scale="1.35" aria-hidden="true"></canvas></div>
+      <div class="sdetail__body">
+        <span class="sdetail__n">02 — Mobile &amp; web</span>
+        <h2 class="sdetail__t">Apps that feel <em>native in both languages</em></h2>
+        <p class="sdetail__d">Flutter and web applications for customers, staff and field teams — fast on mid-range phones, resilient on patchy networks and designed right-to-left from the first wireframe.</p>
+        <ul class="sdetail__list">
+          <li>iOS, Android and web from one Flutter codebase</li>
+          <li>Offline caching with background sync</li>
+          <li>Arabic and English interfaces with proper RTL layouts</li>
+          <li>Ordering, loyalty, booking and staff tools</li>
+        </ul>
+          <p class="sdetail__tags">Flutter — Dart — Supabase — Web</p>
+          <a class="sdetail__link" href="case-zaytouna.html">See Zaytouna Park <i>→</i></a>
+      </div>
+    </section>
+
+    <section class="sdetail" id="dashboards">
+      <div class="sdetail__media"><canvas data-3d="bars" data-color="#262626" data-scale="1.35" aria-hidden="true"></canvas></div>
+      <div class="sdetail__body">
+        <span class="sdetail__n">03 — Dashboards</span>
+        <h2 class="sdetail__t">Numbers you can <em>act on</em></h2>
+        <p class="sdetail__d">Real-time views of revenue, stock and staff performance across every branch, built on the same data your tills write — no exports, no spreadsheets, no waiting for month-end.</p>
+        <ul class="sdetail__list">
+          <li>Live sales by branch, category, cashier and currency</li>
+          <li>Stock levels, movement and low-stock alerts</li>
+          <li>Shift, cash-drawer and reconciliation reports</li>
+          <li>Role-based access for owners, managers and accountants</li>
+        </ul>
+          <p class="sdetail__tags">Supabase — PostgreSQL — Realtime — Web</p>
+          <a class="sdetail__link" href="case-sils.html">See Sils <i>→</i></a>
+      </div>
+    </section>
+
+    <section class="sdetail sdetail--flip" id="automation">
+      <div class="sdetail__media"><canvas data-3d="neural" data-color="#262626" data-scale="1.35" aria-hidden="true"></canvas></div>
+      <div class="sdetail__body">
+        <span class="sdetail__n">04 — AI &amp; automation</span>
+        <h2 class="sdetail__t">Less busywork, <em>more selling</em></h2>
+        <p class="sdetail__d">Practical automation that earns its keep: intelligent catalogue indexing, smarter search and data pipelines that remove repetitive work from daily operations.</p>
+        <ul class="sdetail__list">
+          <li>Intelligent parts and catalogue indexing</li>
+          <li>Typo-tolerant, bilingual product search</li>
+          <li>Automated imports, price updates and data clean-up</li>
+          <li>Assistants and workflows wired into your existing tools</li>
+        </ul>
+          <p class="sdetail__tags">AI agents — Data pipelines — Search</p>
+      </div>
+    </section>
+
+    <section class="sdetail" id="payments">
+      <div class="sdetail__media"><canvas data-3d="rails" data-color="#262626" data-scale="1.35" aria-hidden="true"></canvas></div>
+      <div class="sdetail__body">
+        <span class="sdetail__n">05 — Payments &amp; integrations</span>
+        <h2 class="sdetail__t">Wired into <em>how Lebanon pays</em></h2>
+        <p class="sdetail__d">Direct integrations with Whish Pay and regional gateways, fiscal hardware and the ERPs you already rely on — so money and data move without double entry.</p>
+        <ul class="sdetail__list">
+          <li>Whish Pay and regional payment gateways</li>
+          <li>Fiscal printers and counter hardware</li>
+          <li>Third-party ERP and accounting sync</li>
+          <li>Webhooks and APIs for your own systems</li>
+        </ul>
+          <p class="sdetail__tags">Whish Pay — Gateways — ERP — APIs</p>
+      </div>
+    </section>
+
+    <section class="sdetail sdetail--flip" id="saas">
+      <div class="sdetail__media"><canvas data-3d="stack" data-color="#262626" data-scale="1.35" aria-hidden="true"></canvas></div>
+      <div class="sdetail__body">
+        <span class="sdetail__n">06 — Multi-tenant SaaS</span>
+        <h2 class="sdetail__t">One platform, <em>many businesses</em></h2>
+        <p class="sdetail__d">Cloud platforms that serve many clients from one product: isolated tenant data, per-business configuration and live analytics — engineered to scale without rebuilding for every customer.</p>
+        <ul class="sdetail__list">
+          <li>Tenant isolation enforced at the data layer</li>
+          <li>Per-tenant branding, settings and roles</li>
+          <li>Self-serve onboarding for new businesses</li>
+          <li>Operator analytics across every tenant</li>
+        </ul>
+          <p class="sdetail__tags">Multi-tenant — Flutter — Supabase — PostgreSQL</p>
+          <a class="sdetail__link" href="case-sils.html">See Sils <i>→</i></a>
+      </div>
     </section>
 
     <section class="proc">
-      <div class="regd__head" style="padding-left:0;padding-right:0;">
-        <p class="regd__kicker" data-anim="rise">Our Process</p>
-        <h2 class="regd__h" data-anim="rise">Four <em>phases</em></h2>
+      <div class="sec-head sec-head--flush">
+        <div>
+          <p class="sec-head__kicker" data-anim="rise">Our process</p>
+          <h2 class="sec-head__title">Four <em>phases</em></h2>
+        </div>
       </div>
-      <div class="proc__row"><span class="proc__s">01</span><h3 class="proc__n">Discovery &amp; Scoping</h3><p class="proc__d">We audit your operational flow — counter dynamics, inventory movement, and financial reconciliation — to define architecture before writing code.</p></div>
-      <div class="proc__row"><span class="proc__s">02</span><h3 class="proc__n">UI/UX &amp; Architecture</h3><p class="proc__d">We design native right-to-left interfaces and fault-tolerant data schemas, ensuring rapid cashier workflows and seamless bilingual clarity.</p></div>
-      <div class="proc__row"><span class="proc__s">03</span><h3 class="proc__n">Engineering</h3><p class="proc__d">Senior engineers build in structured milestones using Flutter, C#/WPF, and modern backend services, with offline sync built in at the foundation.</p></div>
-      <div class="proc__row"><span class="proc__s">04</span><h3 class="proc__n">Deployment &amp; Support</h3><p class="proc__d">We manage on-site setup, staff onboarding, and active telemetry monitoring to guarantee long-term stability and peak performance.</p></div>
+      <div class="proc__row"><span class="proc__s">01</span><h3 class="proc__n">Discovery &amp; scoping</h3><p class="proc__d">We map your operation — counter flow, stock movement, cash and reconciliation — and define the architecture before a line of code is written.</p></div>
+      <div class="proc__row"><span class="proc__s">02</span><h3 class="proc__n">Design &amp; architecture</h3><p class="proc__d">Right-to-left interfaces, fast cashier workflows and fault-tolerant data models, validated with the people who will use them every day.</p></div>
+      <div class="proc__row"><span class="proc__s">03</span><h3 class="proc__n">Engineering</h3><p class="proc__d">Senior engineers build in clear milestones with Flutter, C#/WPF and modern backends — offline sync designed in from the foundation, not patched on.</p></div>
+      <div class="proc__row"><span class="proc__s">04</span><h3 class="proc__n">Launch &amp; support</h3><p class="proc__d">On-site setup, staff onboarding and active monitoring after go-live, so the system stays fast and stable long after launch day.</p></div>
     </section>
 
-    <section class="tech"><p class="tech__line" data-anim="rise">FLUTTER · C# / WPF · SUPABASE · SQL SERVER · THREE.JS</p></section>
+    <section class="block">
+      <div class="sec-head">
+        <div>
+          <p class="sec-head__kicker" data-anim="rise">Ways to work with us</p>
+          <h2 class="sec-head__title">Engagement <em>models</em></h2>
+        </div>
+      </div>
+      <div class="cards3">
+        <article class="card"><span class="card__n">01</span><h3 class="card__t">Fixed-scope build</h3><p class="card__d">A defined product with a clear scope and milestone plan, agreed up front after discovery. Best when you know what you need.</p></article>
+        <article class="card"><span class="card__n">02</span><h3 class="card__t">Product partnership</h3><p class="card__d">A senior team shipping continuously alongside you — for products that keep evolving with your business.</p></article>
+        <article class="card"><span class="card__n">03</span><h3 class="card__t">Care &amp; support</h3><p class="card__d">Monitoring, updates and priority fixes for systems already in production — ones we built, or ones you inherited.</p></article>
+      </div>
+    </section>
 
     <section class="contact" id="contact">
-      <p class="contact__kicker" data-anim="rise">Initiate a Project</p>
+      <p class="contact__kicker" data-anim="rise">Start a project</p>
       <h2 class="contact__title" data-anim="rise">Let's scope<br /><em>your build.</em></h2>
       <div class="switch" role="tablist" aria-label="Contact method">
         <button data-tab="whatsapp" class="is-active" role="tab">WhatsApp</button>
@@ -87,12 +208,32 @@
   </main>
 
   <footer class="footer">
-    <span class="brand">OMNIVORA</span><span>Software that survives Beirut</span><span>© 2026 · Beirut, Lebanon</span>
+    <div class="footer__top">
+      <div class="footer__brand">
+        <p class="footer__word">Built to keep business <em>moving.</em></p>
+        <p class="footer__blurb">OmniVora is a software engineering studio in Beirut, building offline-first POS systems, mobile &amp; web applications, and operational dashboards.</p>
+      </div>
+      <nav class="footer__col" aria-label="Footer">
+        <h4>Studio</h4>
+        <a href="work.html">Work</a><a href="services.html">Services</a><a href="industries.html">Industries</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer__col">
+        <h4>Get in touch</h4>
+        <a href="https://wa.me/96170374702" target="_blank" rel="noopener">WhatsApp +961 70 374 702</a>
+        <a href="mailto:hello@omnivora.dev">hello@omnivora.dev</a>
+        <span>Beirut, Lebanon</span>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 OmniVora. All rights reserved.</span>
+      <span>33.8938°N, 35.5018°E</span>
+    </div>
+    <div class="footer__mark" aria-hidden="true"><span>OMNIVORA</span></div>
   </footer>
 
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
-  <script src="vendor/lenis.min.js"></script>
-  <script src="js/home.js"></script>
+  <script src="js/home.js?v=4f1db732"></script>
+  <script src="js/scene3d.js?v=ac3b970f"></script>
 </body>
 </html>
